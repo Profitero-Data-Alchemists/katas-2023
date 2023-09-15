@@ -8,6 +8,7 @@ Of coarse there are additional flows but all of them are connected to main one i
 
 <img align="right" width="200" height="200" src="legend.jpg">
 
+
 ###Legend for diagrams
 
 
