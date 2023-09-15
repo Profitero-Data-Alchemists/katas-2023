@@ -21,6 +21,7 @@ The primary flow of our application begins with user registration. Once a user s
 When a reservation is added to the system, it initiates a tracking process using partner APIs to monitor and update its details continuously. Any changes detected are then saved within our system. Users are promptly notified of these changes through push notifications on their mobile devices, email alerts, or pop-up messages on the web.
 Since users may have multiple reservations, we provide a feature allowing them to group these reservations into a "Trip." These trips can be viewed by the user or shared via social media as public posts or within the app to another user.
 
+
 ![Main Flow](main_flow.jpg "Main Flow")
 
 ## User Profile Actions
@@ -38,6 +39,8 @@ To simplify access control, we've chosen to handle it exclusively at the Trip le
 However, since reservations can exist without a trip, here's what we'll do during profile creation:
 When a user creates their profile, we'll automatically create an "unassigned" trip and grant the user access right away. 
 Any new reservations they make will automatically be placed under the "unassigned" trip, ensuring the user can access them without any extra steps.
+
+
 ![User Profile](user_profile.jpg "User Profile")
 
 ## Email reservations discovery
@@ -56,6 +59,7 @@ As part of this process, all extracted reservations will be automatically groupe
 
 ## Work with reservations
 
+
 > **Reservation** is a user- or automatically created object used to store all reservation details.
 
 We will allow users to manually input their reservations to accommodate situations where not all reservations can be automatically added. 
@@ -70,8 +74,8 @@ These reservations can be automatically tracked and managed within the app.
 During reservation creation, our system automatically identifies and links the most suitable travel agency with each reservation. 
 This functionality will enable us to display a "HELP" button on each reservation, providing users with easy access to the contact details of the associated travel agency.
 
-![Reservation Actions](reservation.jpg "Reservation Actions")
 
+![Reservation Actions](reservation.jpg "Reservation Actions")
 
 ## Reservations tracking
 
@@ -83,6 +87,7 @@ This integration will provide users with real-time information and enhance their
 > - We support only Hotel, Airlines, Car Rental reservations tracking        
 > - We must ensure we are able to extend this in future
 
+
 ![Reservation Tracking](reservation_tracking.jpg "Reservation Tracking")
 
 ## Work with trips
@@ -92,9 +97,12 @@ This integration will provide users with real-time information and enhance their
 An important and valuable feature of the app is the ability to organize reservations by grouping them into Trips. This functionality streamlines reservation management and enhances organization. Each Trip can be customized with a description and its own start and end dates, allowing users to structure their travel plans.
 If a user deletes a Trip, the app will seamlessly handle the transition by automatically reassigning all associated reservations to the "unassigned" Trip. Additionally, the app will suggest deactivating these associated reservations, effectively stopping their tracking.
 
+
 ![Trip Actions](trip.jpg "Trip Actions")
 
 ## Sharing Trips
+
+> **Access Control List** is an object used to authorize user to a trip.
 
 To expand the app's user base, we are implementing convenient ways to share information both within and outside the app. 
 Users will have two options for sharing their Trips with others:
@@ -107,9 +115,12 @@ This action will generate a link and send it via email, allowing the recipient t
 If the recipient does not have an account, they will be prompted to create one by logging into the app using their Google, Apple, or Microsoft ID. 
 This feature encourages users to bring more people into the app, fostering community and increasing its user base.
 
+
 ![Sharing](sharing.jpg "Sharing")
 
 ## Work with travel agencies
+
+> **Travel Agency** is support-created object used to fill in agency details including contact info for HELP button.
 
 At the moment, our approach involves the manual maintenance of a list of travel agencies with the assistance of our support team. 
 While we are actively exploring ways to automate this process in the future, the current focus is on ensuring the app's functionality.
@@ -119,7 +130,7 @@ This functionality will enable us to display a "HELP" button on each reservation
 
 ![Travel Agencies](travel_agency.jpg "Travel Agencies")
 
-## Analytical reports 
+## Analytical reports
 
 Analytical capabilities within the app serve two essential purposes:
 - **Annual User Reports**: One of the app's requirements is to generate annual reports summarizing a user's trips. This functionality could expand into a more comprehensive export feature or even evolve into a dashboard presenting aggregated insights about a user's trips within the app. 
