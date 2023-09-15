@@ -1,5 +1,5 @@
 # Operational Viewpoint
-> *Describes how the system will be operated when it is running on production environment. *
+> *Describes how the system will be operated when it is running on production environment.*
 
 Here we connect the main user flow with the system context. The base things a user do in the application are:
 - Login. The app needs to know who going to get help with his trips.
