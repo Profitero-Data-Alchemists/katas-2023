@@ -17,6 +17,8 @@ Functionally, the application provides several feature groups, including:
 - Report Generation
 - User Notification
 
+Data Schema mirrors that separation
+
 # Glossary
 
 TODO: pulling vs discovering
