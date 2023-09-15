@@ -67,7 +67,7 @@ Outbound Links
 
 ## Reservations
 
-This entity represents single trip event, (optionally) identifiable and
+This entity represents single trip event, (optionally) ident and
 trackable in other travelling systems.
 
 Table has Surrogate Key for performance and ability to manage reservations that
@@ -106,8 +106,43 @@ in a joined table called `Reservation Itinerary`.
 
 ## Trip
 
+Trip entity is used to group multiple reservations for convenience. Also trips
+can be shared with other users, Allowing them to view information on contained
+reservations with differen granularity according to role. See more on sharing in
+Trip Access Control List chapter.
+
+Each user has a special "Unassinged" trip ontaining all not-yet-assigned
+reservations. This trip is used to simplify access control to such reservations
+and unify the flow of working with them.
+
+### Fields
+- ID
+- Description - A space for user to specify additional information.
+- Dates - start and end date of the vacation. For convenience purposes and
+  easier automatic grouping of reservations.
+- Is Unassinged - Special flag to mark the unassigned reservation. Only one per
+  each user should exist.
+
+### Outbound Links
+- Owner ID - User that created and is owning the trip. Owner has full access to
+  edit the trip as well as the reservations contained.
+
+### Inbound Links
+- Users (Through "Trip Access Control List" join table) - list of users and
+  corresponding roles they have been granted for the trip.
+
 ## Trip Access Control List
-TBA
+Table tracks access of users to the trips that have been shared with the by
+other users.
+
+## Fields
+- Role - enumeration with different access levels for the trip. Levels of access
+  range from "full read access" used for co-travellers to "trip dates and
+  locations" for case of sharing data with wider and/or less trusted audiences,
+
+## Outbound Links
+- User - the user for whom the role applies
+- Trip - the trip to which access applies
 
 ## Travel Agency
 TBA
