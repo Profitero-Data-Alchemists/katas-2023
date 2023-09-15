@@ -32,7 +32,10 @@ Data Schema mirrors that separation
 TODO: pulling vs discovering
 TODO: reminder: analyse with "why"
 
+
+
 # Entities
+
 
 ## User
 
@@ -65,13 +68,14 @@ is related to specific user.
   resolution
 
 ### Inbound Links
-- Trips (Through "Trip Access Control List" join table) - trips shared with
+- Shared Trips (Through "Trip Access Control List" join table) - trips shared with
   with the user by other users. Used for authorization and access control.
-- Trips (directly by User ID) - trips created and owned by the user
+- Owned Trips (directly by Owner ID) - trips created and owned by the user
 - Reservations - reservations created and owned by the user. Used for
   authorization.
 - Notifications - for tracking read receipts.
 - User Reports - reports intended for the user. For recipient tracking
+
 
 ## Reservation
 
@@ -117,36 +121,38 @@ trackable in travel agency reservation management systems.
 - Reservation Itinerary - Historical versions of the trip itinerary details.
   Extracted to separate collection for performance.
 
+
 ## Trip
 
-Trip entity is used to group multiple reservations for convenience. Also trips
-can be shared with other users, Allowing them to view information on contained
-reservations with differen granularity according to role. See more on sharing in
-Trip Access Control List chapter.
+Trip entity represents a group of reservations for convenience. Also trips
+can be shared with other users, to scope sharing feature data access, 
 
-Each user has a special "Unassinged" trip ontaining all not-yet-assigned
-reservations. This trip is used to simplify access control to such reservations
-and unify the flow of working with them.
+### Decisions
+- Each user has a service "Unassinged" trip ontaining all not-yet-assigned
+  reservations. This trip is used to unify the flow of working with reservations
+- User owning the trip is still tracked via directo reference, for simpler
+  investigation.
 
 ### Fields
 - ID
 - Description - A space for user to specify additional information.
-- Dates - start and end date of the vacation. For convenience purposes and
+- Dates - start and end date of the trip. Is used for convenience purposes and
   easier automatic grouping of reservations.
-- Is Unassinged - Special flag to mark the unassigned reservation. Only one per
-  each user should exist.
+- Is Unassinged - Special flag to mark the unassigned reservation. Exactly one
+  unassigned trip per user should exist.
 
 ### Outbound Links
-- Owner ID - User that created and is owning the trip. Owner has full access to
-  edit the trip as well as the reservations contained.
+- Owner - User creator and owner of the trip. Used for authorization.
 
 ### Inbound Links
 - Users (Through "Trip Access Control List" join table) - list of users and
   corresponding roles they have been granted for the trip.
 
-## Trip Access Control List
-Table tracks access of users to the trips that have been shared with the by
-other users.
+
+## Trip Access Control
+Trip Access Control List entity holds information on access of users to the
+trips that have been shared with the by other users. Used solely for
+authorization.
 
 ### Fields
 - Role - enumeration with different access levels for the trip. Levels of access
@@ -154,85 +160,92 @@ other users.
   locations" for case of sharing data with wider and/or less trusted audiences,
 
 ### Outbound Links
-- User - the user for whom the role applies
-- Trip - the trip to which access applies
+- User - user for whom the access role applies
+- Trip - trip to which the access control rule applies
+
 
 ## Travel Agency
 
-Reverence Data collection that contains information about all supported travel
-agencies. Used for tracking configuration and user quick issue resolution.
+Travel Agency entity contains reservation-tracking and issue resolution
+information.
+
+Decisions:
+- Dat acollection is maintained up to date by support engineers.
 
 ### Fields
 - ID
 - Name
-- Description - info about the travel agency to be presented to user. Contains
-  contact information.. TODO: mention the contact info explicitly and
-  separately?
+- Description - info about the travel agency. Is used for internal purposes and
+  to be presented to user. Contains contact information.
 - API URL - URL to be used for tracking resevation updates for this agency
 
 ### Inbound Links
-- User - users for whom this travel agency is preferred for the issue resolution
+- User - user for whom this travel agency is preferred for the issue resolution
+
 
 ## Notification
 
-Notification entity is used to track deliverance of notifications to the users.
+Notification entity records deliverance of app notifications to the users.
 
 ### Fields
 - ID
 - Status - delivered or not
-- Type - to allow for eay identification of different notifications in code and
-  richer content
-- Type Specific Data - data to present to the user.
+- Type - to allow for identification of different interpretation in code and richer
+  content for the user.
+- Type Specific Data - dynamic field, data to present to the user.
 
 ### Outbound Links
-- User - the recepient of the notification
+- User - the intended recepient of the notification
+
 
 ## User Report
 
-Entity representing Reports, datasets collected for the user, e.g. the end of
-year report.
+Entity representing Reports - datasets collected for presenting to the user,
+e.g. the annual report.
 
-NOTE: in case of high peak loads, reports can be moved to analytical
-database, for better availability of the app and performance of report
-generation.
+### Decisions
+
+- In case of high peak loads, reports can be moved to a separate analytical
+  database, for better  performance.
 
 ### Fields
 - ID
-- Type - for identifying different types of reports and interpreting
-  type-specific data
-- Type Specific Data - additional info native to the report type. To be
-  interpreted by the system.
-- Data URI - link to the actual data of the report. To allow for storing the
-  data in a more suitable storage system, e.g. BLOB storage.
+- Type - for identifying different types of reports in the code and richer
+  content for the user
+- Type Specific Data - additional info native to the report type. Is interpreted
+  by the system.
+- Data URI - link to the actual data of the report. Used to allow for storing the
+  data in a more performant storage, e.g. BLOB storage.
 
 ### Outbound Links
 - User ID - the intended recipient of the report.
 
+
 ## Vendor Report
 
-Entity dataset of analytical data collected for the vendors, e.g. travel
-agencies.
+Entity represents dataset record of aggrecated analytical data generated for the
+vendors, e.g. travel agencies. All the data in the dataset is used for
+analytical purposes.
 
-The reports mostly mirror the itinerary table and contain data
-
-NOTE: in case of high peak loads, reports can be moved to analytical
-database, for better availability of the app and performance of report
-generation.
-
-All the data in the dataset is used for analytical purposes.
-
+Decisions:
+- In case of high peak loads, reports can be moved to analytical database, for
+  better performance
+- Only data storage is described. Data export feature is not addressed, and
+  should be refined with the product owner
+- The primary key is chosen to mask personal info, but yet provide useful
+  granularity for the consumer
+- Stats are given for example, and should be rigorously refined with product
+  owners
 
 ### Fields
 
-Primary Key - scope of the data for the record:
+Primary Key - scope of the statistical data in the record
 - Time period - date range for the scope of report stats
 - Agency - agency filter for reservations
 - User Geo Region - country or state-wide range of user's home locations
 - Reservation Geo Region - country or state-wide range of Reservations locations
 
-Stats:
-NOTE: Stats are given for example, and should be rigorously refined with product
-owners.
+Stats
 - Financial Stats
   - Average per-user bill
   - Total money spent
@@ -242,6 +255,10 @@ owners.
   - Cancellation Rate
 
 # Changelog
+
+## Revision 3
+
+Rewrite All entity sections with "why" question in mind.
 
 ## Revision 2
 
