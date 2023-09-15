@@ -5,6 +5,8 @@
 - refactor user-reservation relationship. the owner relation is NOT done through
   the access control table, since it's a special case.
 - Update image when doc is approved
+- update depths of headers to correct values
+- cross-link mentioned entities and markdown headers
 
 # Purpose
 
@@ -28,81 +30,92 @@ Data Schema mirrors that separation
 # Glossary
 
 TODO: pulling vs discovering
+TODO: reminder: analyse with "why"
 
 # Entities
 
-# User
+## User
 
-User table contains all the information that is related to specific user.
-The data is denormalized, and dynamic fields with multiple records are present
-in the table. This decision provides better performance and is viable since
-the data in the user table is not participating in any busines-critical
-transactions.
+User entity represents end user of the app and contains all the information that
+is related to specific user.
 
-## Fields:
+### Decisions
+- The data is stored in one table with dynamic schema fields with multiple
+  records are present in the table. This approach provides better performance,
+  easier extensibility, and is viable since the data in question is not being
+  modified in any busines-critical transactions.
 
-- ID - primary key
-- E-mail - the e-mail that user registered with and from which the reservations
-  will be discovered
-- E-mail filtering rules - configuration of search terms and other filters to
-  use when crawling for e-mails. The field has a fallback value set up to match
-  all possible travel-related emails
+### Fields:
+
+- ID - surrogate primary key for performance and easier GDPR compliance.
+- E-mail - user's email. Used for authentication and reservation updates
+  discovery and tracking.
+- E-mail filtering rules - configuration limiting scope of scraped emails. Used
+  for improved privacy and performance.
 - Personal Info - User-related personal data
   - Name - for polite user addressing
   - Location - home address of the user, for emergency issue resolution
   - Language - preferred UI language
-  - Contact Info - for emergency cases and issue resolution
+  - Contact Info - for emergency cases and quick issue resolution
 - Notification settings - preferences regarding frequency, importance and
-  delivery method for the in-app notifications.
+  delivery method for app notifications for convenience.
 
-Inbound Links
-- Preferred Agency ID - travel agency that should be used for quick issue
+### Outbound Links
+- Preferred Agency ID - travel agency that should be used. Used For quick issue
   resolution
 
-Outbound Links
-- Trips (Through "Trip Access Control List" join table)
-- Reservations
-- Notifications
-- User Reports
+### Inbound Links
+- Trips (Through "Trip Access Control List" join table) - trips shared with
+  with the user by other users. Used for authorization and access control.
+- Trips (directly by User ID) - trips created and owned by the user
+- Reservations - reservations created and owned by the user. Used for
+  authorization.
+- Notifications - for tracking read receipts.
+- User Reports - reports intended for the user. For recipient tracking
 
-## Reservations
+## Reservation
 
-This entity represents single trip event, (optionally) ident and
-trackable in other travelling systems.
+Reservation entity represents single trip event, (optionally) identifiable and
+trackable in travel agency reservation management systems. 
 
-Table has Surrogate Key for performance and ability to manage reservations that
-are NOT available in any other tracking system (e.g. privately agreed transfer
-or hotel stay).
-
-Since the main purpose of the application is to provide the user with updates on
-trip details, the core itinerary data that is monitored for updates is located
-in a joined table called `Reservation Itinerary`.
+### Decisions
+- Table has Surrogate Key instead of natural Personal Name Record key for
+  performance, easier GDPR compliance and ability to manage reservations that
+  are NOT available for tracking in any other tracking system (e.g. privately
+  agreed car transfer or hotel stay).
+- The potential load of updatign the itinerary of the trip is high, that's why
+  the core itinerary data is stored in a separate data collection, see
+  `Reservation Itinerary`.
 
 ### Fields
-- GEO Info - information about the geographical locations involved in a trip.
-  Field is dynamic to allow for greater flexibility
+- ID - surrogate key
+- Tracking Info - natural key. Personal Details that are used to look up
+  reservation details in reservation tracking systems.
+- GEO Info - information about the geographical locations involved in a
+  reservation. Field is dynamic to allow for easier extensibility and support of
+  different reservation types. Used for user convenience and analytical
+  purposes.
 - Financial Info - financial details of the trip. Used for analytical purposes
   for user and vendor reports.
 - Name - in-app display name of the trip
-- Status - for tracking active, cancelled, user-removed etc state of a
-  reservation.
+- Status - enumeration, used for tracking lifecycle of the reservation. E.g
+  active(tracked), cancelled(by vendoer), removed(by the user), finished(by
+  passage of time) etc.
 - Description - free-form description of the reservation. A space for user to
   specify additional information.
-- Data Source - [TODO] Indication on where the reservation should be tracked. OR
-  abut where it was discovered.
+- Data Source - information about where the reservation was discovered. Used for
+  Investigation purposes.
 
 ### Outbound Links:
-- Agency ID - travel agency managing the reservation. Used to resolve issues and
-  for data tracking
-- Trip ID - trip that the reservation belongs to, Trips are used for grouping,
-  see Trips chapter.
-- UserID - The user that created and is owning the reservation. Owner can
-  perform updates to reservation datails, status, and share it with users with
-  other roles.
+- Agency ID - travel agency managing the reservation. Used for issue resolution
+  and for data tracking
+- Trip ID - trip that the reservation belongs to, Is used for grouping, see
+  `Trip`
+- UserID - The creator and owner of the reservation. used for Authorization.
 
 ### Inbound Links
-- Reservation Itinerary - historical versions of the trip itinerary details. see
-  Reservation Itinerary for more
+- Reservation Itinerary - Historical versions of the trip itinerary details.
+  Extracted to separate collection for performance.
 
 ## Trip
 
@@ -230,4 +243,14 @@ owners.
 
 # Changelog
 
-## Revision 0 (Initial)
+## Revision 2
+
+Rewrite User, Resrvation sections with "why" question in mind.
+
+## Revision 1
+
+Draft information for all entities added.
+
+## Revision 0
+- Initial
+
