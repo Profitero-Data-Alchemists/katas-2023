@@ -7,6 +7,8 @@ decisions taken.
 
 # Overview
 
+![information viewpoint](./images/information_viewpoint.jpg | width=1280)
+
 Functionally, the application provides several feature groups, including:
 
 - User Management
