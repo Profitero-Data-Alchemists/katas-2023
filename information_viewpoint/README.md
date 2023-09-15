@@ -135,26 +135,98 @@ and unify the flow of working with them.
 Table tracks access of users to the trips that have been shared with the by
 other users.
 
-## Fields
+### Fields
 - Role - enumeration with different access levels for the trip. Levels of access
   range from "full read access" used for co-travellers to "trip dates and
   locations" for case of sharing data with wider and/or less trusted audiences,
 
-## Outbound Links
+### Outbound Links
 - User - the user for whom the role applies
 - Trip - the trip to which access applies
 
 ## Travel Agency
-TBA
+
+Reverence Data collection that contains information about all supported travel
+agencies. Used for tracking configuration and user quick issue resolution.
+
+### Fields
+- ID
+- Name
+- Description - info about the travel agency to be presented to user. Contains
+  contact information.. TODO: mention the contact info explicitly and
+  separately?
+- API URL - URL to be used for tracking resevation updates for this agency
+
+### Inbound Links
+- User - users for whom this travel agency is preferred for the issue resolution
 
 ## Notification
-TBA
+
+Notification entity is used to track deliverance of notifications to the users.
+
+### Fields
+- ID
+- Status - delivered or not
+- Type - to allow for eay identification of different notifications in code and
+  richer content
+- Type Specific Data - data to present to the user.
+
+### Outbound Links
+- User - the recepient of the notification
 
 ## User Report
-TBA
+
+Entity representing Reports, datasets collected for the user, e.g. the end of
+year report.
+
+NOTE: in case of high peak loads, reports can be moved to analytical
+database, for better availability of the app and performance of report
+generation.
+
+### Fields
+- ID
+- Type - for identifying different types of reports and interpreting
+  type-specific data
+- Type Specific Data - additional info native to the report type. To be
+  interpreted by the system.
+- Data URI - link to the actual data of the report. To allow for storing the
+  data in a more suitable storage system, e.g. BLOB storage.
+
+### Outbound Links
+- User ID - the intended recipient of the report.
 
 ## Vendor Report
-TBA
+
+Entity dataset of analytical data collected for the vendors, e.g. travel
+agencies.
+
+The reports mostly mirror the itinerary table and contain data
+
+NOTE: in case of high peak loads, reports can be moved to analytical
+database, for better availability of the app and performance of report
+generation.
+
+All the data in the dataset is used for analytical purposes.
+
+
+### Fields
+
+Primary Key - scope of the data for the record:
+- Time period - date range for the scope of report stats
+- Agency - agency filter for reservations
+- User Geo Region - country or state-wide range of user's home locations
+- Reservation Geo Region - country or state-wide range of Reservations locations
+
+Stats:
+NOTE: Stats are given for example, and should be rigorously refined with product
+owners.
+- Financial Stats
+  - Average per-user bill
+  - Total money spent
+- Updates Stats
+  - Re-scheduling Rate
+  - Replacement Rate
+  - Cancellation Rate
 
 # Changelog
 
