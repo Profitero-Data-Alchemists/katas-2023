@@ -7,7 +7,7 @@ decisions taken.
 
 # Overview
 
-![information viewpoint](./images/information_viewpoint_1.jpg | width=1280)
+![information viewpoint](information_viewpoint/images/information_viewpoint_1.jpg | width=1280)
 
 Functionally, the application provides several feature groups, including:
 
