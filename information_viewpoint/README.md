@@ -296,6 +296,10 @@ Stats:
 
 # Changelog
 
+## Revision 6
+
+Remove responsibility matrix as unnecessary for the purpose of the document.
+
 ## Revision 5
 
 Add responsibility matrix.
