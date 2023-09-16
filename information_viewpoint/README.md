@@ -7,6 +7,7 @@
 - Update image when doc is approved
 - update depths of headers to correct values
 - cross-link mentioned entities and markdown headers
+- dots in the ends of list entries - pick single style
 
 # Purpose
 
@@ -83,47 +84,48 @@ information specific to a user.
 
 ## Reservation
 
-Reservation entity represents single trip event, (optionally) identifiable and
-trackable in travel agency reservation management systems. 
+The Reservation entity represents an individual trip event, optionally
+identifiable and traceable within travel agency reservation management systems.
 
 ### Decisions
-- Table has Surrogate Key instead of natural Personal Name Record key for
-  performance, easier GDPR compliance and ability to manage reservations that
-  are NOT available for tracking in any other tracking system (e.g. privately
-  agreed car transfer or hotel stay).
-- The potential load of updatign the itinerary of the trip is high, that's why
-  the core itinerary data is stored in a separate data collection, see
-  `Reservation Itinerary`.
+- Utilization of a Surrogate Key instead of a natural Personal Name Record key
+  enhances performance, streamlines GDPR compliance, and allows for the
+  management of reservations not available for tracking in other systems (e.g.,
+  privately arranged car transfers or hotel stays).
+- To mitigate the potential load of itinerary updates, core itinerary data is
+  stored in a separate data collection. Please refer to ``Reservation Itinerary`
+  for more details.
 
 ### Fields
-- ID - surrogate key
-- Tracking Info - natural key. Personal Details that are used to look up
-  reservation details in reservation tracking systems.
-- GEO Info - information about the geographical locations involved in a
-  reservation. Field is dynamic to allow for easier extensibility and support of
-  different reservation types. Used for user convenience and analytical
+- ID: Surrogate key for unique identification.
+- Tracking Info: Natural key comprising personal details used to retrieve
+  reservation details from reservation tracking systems.
+- GEO Info: Contains information about the geographical locations involved in a
+  reservation. This field is dynamic to facilitate extensibility and support
+  various reservation types, benefiting user convenience and analytical
   purposes.
-- Financial Info - financial details of the trip. Used for analytical purposes
-  for user and vendor reports.
-- Name - in-app display name of the trip
-- Status - enumeration, used for tracking lifecycle of the reservation. E.g
-  active(tracked), cancelled(by vendoer), removed(by the user), finished(by
-  passage of time) etc.
-- Description - free-form description of the reservation. A space for user to
-  specify additional information.
-- Data Source - information about where the reservation was discovered. Used for
-  Investigation purposes.
+- Financial Info: Contains the financial details of the trip, used for
+  analytical purposes in user and vendor reports.
+- Name: The in-app display name of the trip.
+- Status: An enumeration indicating the reservation's lifecycle (e.g., active
+  (tracked), cancelled (by vendor), removed (by the user), finished (due to
+  passage of time), etc.).
+- Description: A free-form section for users to provide additional information
+  about the reservation.
+- Data Source: Records information about where the reservation was discovered,
+  used primarily for investigation purposes.
 
 ### Outbound Links:
-- Agency ID - travel agency managing the reservation. Used for issue resolution
-  and for data tracking
-- Trip ID - trip that the reservation belongs to, Is used for grouping, see
-  `Trip`
-- UserID - The creator and owner of the reservation. used for Authorization.
+- Agency ID: Identifies the travel agency responsible for managing the
+  reservation, used for issue resolution and data tracking.
+- Trip ID: Links the reservation to the corresponding trip, facilitating
+  grouping. Please refer to Trip for further information.
+- UserID: Identifies the creator and owner of the reservation, utilized for
+  authorization purposes.
 
 ### Inbound Links
-- Reservation Itinerary - Historical versions of the trip itinerary details.
-  Extracted to separate collection for performance.
+- Reservation Itinerary: Contains historical versions of the trip itinerary
+  details, extracted to a separate collection for enhanced performance.
 
 
 ## Trip
