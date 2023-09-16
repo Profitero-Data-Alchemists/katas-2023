@@ -1,4 +1,4 @@
-# ADR 14: Use NoSQL Database with object-oriented model
+# ADR 14: Use self-managed NoSQL Database with object-oriented model
 
 **Date**: 2023-09-15
 
@@ -6,7 +6,7 @@
 Proposed 
 
 ## Context
-Every application should have a database to persist data. Given the availability, performance, and scalability requirenments, we should consider our choice very carefully.
+Every application should have a database to persist data. Given the availability, performance, and scalability requirements, we should consider our choice very carefully.
 
 ## Decision
 To achieve a highly scalable and available system while keeping performance at exceptional level, opting for a NoSQL clustered database is essential. We recommend using self-managed MongoDB for reasons similar to the Message Broker's. Self-management within Kubernetes enables us to control costs while ensuring robust database performance and availability.

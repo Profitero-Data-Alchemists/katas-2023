@@ -398,7 +398,7 @@ A number of Third party we need to provide our features:
 The next schema shows how all it works together to satisfy  our users:
 
 
-![Base Operational](operational_viewpoint/images/L1_Operational_RoadWarrior.jpg "Base operations diogram")
+![Base Operational](operational_viewpoint/images/L1_Operational_RoadWarrior.jpg "Base operations diagram")
 
 ## Implementation milestones
 Implementing the startup approach for "The Road Warrior," which emphasizes launching a Minimum Viable Product (MVP) quickly, gathering user feedback, and continuously integrating external APIs and data providers, requires a different set of implementation milestones.
@@ -422,3 +422,20 @@ Implementing the startup approach for "The Road Warrior," which emphasizes launc
 
 
 ## Architecture decision records
+
+- ### [ADR-1](adrs/adr-1-architecture-style.md) Use
+- ### [ADR-2](adrs/adr-) Use
+- ### [ADR-3](adrs/adr-3-data-reader.md) Use API based synchronous Data Readers
+- ### [ADR-4](adrs/adr-4-data-updater.md) Use messaging based asynchronous Data Updaters
+- ### [ADR-5](adrs/adr-5-trackers.md) Use messaging based asynchronous Trackers
+- ### [ADR-6](adrs/adr-6-sharing.md) Use API based synchronous Sharing service
+- ### [ADR-7](adrs/adr-7-publishers.md) Use messaging based asynchronous Publishers
+- ### [ADR-8](adrs/adr-8-scaling-groups.md) Use separate Scaling Groups for different workloads
+- ### [ADR-9](adrs/adr-9-topics.md) Use topics and compacted topics for message handling
+- ### [ADR-10](adrs/adr-10-partitioning-key.md) Use same Partitioning Key for corresponding topics and tables
+- ### [ADR-11](adrs/adr-11-monorepos.md) Use separate Monorepo for Frontend and Backend
+- ### [ADR-12](adrs/adr-12-gitlab-flow.md) Use GitLab Flow Merge strategy
+- ### [ADR-13](adrs/adr-13-infrastructure.md) Use Multi Zone Infrastructure
+- ### [ADR-14](adrs/adr-14-no-sql-database.md) Use self-managed NoSQL Database with object-oriented model
+- ### [ADR-15](adrs/adr-15-message-broker.md) Use self-managed Message Broker
+ 
