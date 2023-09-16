@@ -66,3 +66,16 @@ Emails from the `Unparsed User Emails` are captured by the microservice `Emails 
 Implementation of `Reservation trackers` based on the use of the Compacted topics. The reservations that should be tracked are picked by the `Reservation Tracker` microservice and sent to one of the Compacted topics depending on the reservation type. Each type of the topic being processed by Tracker for a specific reservation type and sent to the external Travel System or Travel Agency API for reservation updates. Any existing update stored back to the corresponding Reservations compacted topic and being processed by the `Reservation Updater` microservice. It updates the reservation information in the system by:
 1. Sending the Reservation update to the `Reservation Data Reader/Updater` service,
 2. Sending the Reservation update to the `Notification Publisher` service to notify the user about the change.
+
+### Level 3 - Container - Notification Publisher
+
+![Level 3 - Container - Notification Publisher](/context_viewpoint/images/Level-3-Container-Notification-Publisher.svg)
+
+All notifications from different originators are sent into the topic `Incoming Notifications`. They are picked by the `Notifications Registrator` and filtered according to the Notification settings for each user. In case the user disabled one of the notification types in the settings - the corresponding notification will be filtered out by the `Notifications Registrator` and not sent to the next step. All notifications after filtering are sent to the `Notifications To Send` topic. Notifications from that topic are being processed by the `Notifications Sender` microservice.
+
+There are three possible ways to deliver notification to the user:
+1. Push notification to the mobile application
+2. Email notification
+3. Notifications widget in the web or mobile application
+
+The first two are implemented using the 3rd party API for sending mobile-native push notifications and emails. The last one is implemented by sending the notification to the `Notifications Data Reader/Updater` service.
