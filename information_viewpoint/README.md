@@ -178,21 +178,23 @@ shared by other users. Its sole purpose is for authorization.
 
 ## Travel Agency
 
-Travel Agency entity contains reservation-tracking and issue resolution
-information.
+The Travel Agency entity encompasses information related to reservation tracking
+and issue resolution.
 
 Decisions:
-- Dat acollection is maintained up to date by support engineers.
+- Data acollection is maintained up to date by support engineers. This is
+  acceptable for the MVP stage of the servicd.
 
 ### Fields
-- ID
-- Name
-- Description - info about the travel agency. Is used for internal purposes and
-  to be presented to user. Contains contact information.
-- API URL - URL to be used for tracking resevation updates for this agency
+- ID: Unique identifier for the travel agency.
+- Name: Name of the travel agency.
+- Description: Provides information about the travel agency, utilized for
+  internal purposes and presentation to the user. This section also contains
+  contact information.
+- API URL: The URL used to track reservation updates for this agency.
 
 ### Inbound Links
-- User - user for whom this travel agency is preferred for the issue resolution
+- User: Identifies the user who prefers this travel agency for issue resolution.
 
 
 ## Notification
