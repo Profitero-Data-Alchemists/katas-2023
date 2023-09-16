@@ -215,61 +215,64 @@ The Notification entity logs the delivery of app notifications to users.
 
 ## User Report
 
-Entity representing Reports - datasets collected for presenting to the user,
-e.g. the annual report.
+The User Report entity represents datasets collected for presentation to the user, such as an annual report.
 
 ### Decisions
-
-- In case of high peak loads, reports can be moved to a separate analytical
-  database, for better  performance.
+- In scenarios of high peak loads, reports can be relocated to a separate
+  analytical database to enhance performance.
 
 ### Fields
-- ID
-- Type - for identifying different types of reports in the code and richer
-  content for the user
-- Type Specific Data - additional info native to the report type. Is interpreted
-  by the system.
-- Data URI - link to the actual data of the report. Used to allow for storing the
-  data in a more performant storage, e.g. BLOB storage.
+- ID: Unique identifier for the user report.
+- Type: Identifies different types of reports in the code and provides richer
+  content for the user.
+- Type Specific Data: Contains additional information specific to the report
+  type, interpreted by the system.
+- Data URI: A link to the actual data of the report. This allows for storage in
+  a more performant and suitable system, such as BLOB storage.
 
-### Outbound Links
-- User ID - the intended recipient of the report.
+# Outbound Links
+
+- User ID: Identifies the intended recipient of the report.
 
 
 ## Vendor Report
 
-Entity represents dataset record of aggrecated analytical data generated for the
-vendors, e.g. travel agencies. All the data in the dataset is used for
-analytical purposes.
+The Vendor Report entity represents a dataset record of aggregated analytical
+data generated for vendors, such as travel agencies. All the data in the dataset
+serves analytical purposes.
 
-Decisions:
-- In case of high peak loads, reports can be moved to analytical database, for
-  better performance
-- Only data storage is described. Data export feature is not addressed, and
-  should be refined with the product owner
-- The primary key is chosen to mask personal info, but yet provide useful
-  granularity for the consumer
-- Stats are given for example, and should be rigorously refined with product
-  owners
+### Decisions:
+- To enhance performance during high peak loads, reports can be relocated to an
+  analytical database.
+- This document focuses solely on data storage. The data export feature is not
+  covered and should be discussed further with the product owner.
+- The primary key is designed to anonymize personal information while still
+  providing useful granularity for the consumer.
+- The provided stats are for illustrative purposes and require rigorous
+  refinement in collaboration with product owners.
 
 ### Fields
 
-Primary Key - scope of the statistical data in the record
-- Time period - date range for the scope of report stats
-- Agency - agency filter for reservations
-- User Geo Region - country or state-wide range of user's home locations
-- Reservation Geo Region - country or state-wide range of Reservations locations
+Primary Key: Scope of the statistical data in the record
+- Time period: Specifies the date range for the scope of report stats.
+- Agency: Acts as an agency filter for reservations.
+- User Geo Region: Indicates the country or state-wide range of user's home locations.
+- Reservation Geo Region: Identifies the country or state-wide range of reservation locations.
 
-Stats
-- Financial Stats
+Stats:
+- Financial Stats:
   - Average per-user bill
   - Total money spent
-- Updates Stats
+- Updates Stats:
   - Re-scheduling Rate
   - Replacement Rate
   - Cancellation Rate
 
 # Changelog
+
+## Revision 4
+
+Rewrite All entity sections with help of chatgpt.
 
 ## Revision 3
 
