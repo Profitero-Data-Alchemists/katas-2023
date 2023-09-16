@@ -31,9 +31,9 @@
 ## Welcome
 
 Welcome to the Profitero Data Alchemists Architectural Kata run by O'Reilly in September 2023.
-We are the architecture team within Profitero, a midsize product company, which gather, enhance, and deliver ecommerce data to our global customer base. 
+We are the architecture team within Profitero, a midsize product company, which gather, enhance, and deliver ecommerce data to our global customer base.
 
-Our mission is to design and shape the foundation upon which data flows, insights are born, and solutions are built. 
+Our mission is to design and shape the foundation upon which data flows, insights are born, and solutions are built.
 
 As architects, we understand the power and potential of data to transform industries, drive efficiencies, and unlock new possibilities. We are at the forefront of organizing, securing, and optimizing data ecosystems to unleash their full potential.
 
@@ -78,7 +78,7 @@ For the original requirements please follow [Original Requirements](requirements
 ### Functional Requirements
 
 #### Email Integration
-- Periodically poll users' emails for travel-related information. 
+- Periodically poll users' emails for travel-related information.
 - Ability to filter and whitelist certain emails based on user preferences.
 
 #### Integration with Travel Systems
@@ -144,7 +144,7 @@ For the original requirements please follow [Original Requirements](requirements
 ### Driving characteristics
 While conducting requirements analysis, various architectural characteristics that held significance for the system were identified.
 
-| Top | Characteristic   | Description                                                                                                                                                                                                                           | 
+| Top | Characteristic   | Description                                                                                                                                                                                                                           |
 |-----|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |  x  | Performance      | Performance optimization is essential to provide a responsive and user-friendly experience across all platforms.                                                                                                                      |
 |     | Responsivenes    | Response time from the web should be limited to 800ms, and mobile should have a First-contentful paint of under 1.4 seconds.                                                                                                          |
@@ -166,14 +166,14 @@ In alignment with the top three key characteristics, the team selected an **even
 |---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Availability     | Users must be able to access the system at all times, with a maximum of 5 minutes per month of unplanned downtime. <br/> High availability is crucial to ensure that travelers can access their trip information whenever they need it. |
 | Security      | Filtering and whitelisting certain emails are security measures to prevent unwanted or malicious emails.<br/> Ensuring the security of user data and interactions is essential, especially in the context of travel-related information. |
-| Maintainability | Maintainability is critical for managing and analyzing data over time, adapting to changing requirements. Especially for just launched product on the market                                                                            | 
+| Maintainability | Maintainability is critical for managing and analyzing data over time, adapting to changing requirements. Especially for just launched product on the market                                                                            |
 
 ## Functional Viewpoint
 
-> *Describes the system’s functional elements, their responsibilities, interfaces, 
+> *Describes the system’s functional elements, their responsibilities, interfaces,
 > and primary interactions*
 
-Based on functional requirements we identified main flow our application should support. 
+Based on functional requirements we identified main flow our application should support.
 Of coarse there are additional flows but all of them are connected to main one in some way.
 
 
@@ -183,7 +183,7 @@ Of coarse there are additional flows but all of them are connected to main one i
 
 **Legend for diagrams**
 
-- **Actor**: User or System 
+- **Actor**: User or System
 - **Function**: Action performed by Actor
 - **Data Element**: May represent an object or it's attribute
 - **Constraint**: Functional limitation introduced to simplify system
@@ -223,7 +223,7 @@ As we can see the system has many-many integration points:
  * **Identity API** is used to verify the identity of the user who logs into the application. It also provides basic info about the user, that they agreed to provide during the registration.
  * **User Email API** provides the ability to discover new reservations by user email polling (if allowed by the user).
  * **Travel Agencies API** provides updates for reservations that were added by users or discovered in user email. E.g. Hotel, Airline or Car rental API.
- * **Travel Systems API** also provides updates and details for reservations. E.g. SABRE, APOLLO
+ * **Travel Systems API** also provides updates and details for reservations. E.g. SABRE, APOLLO.
  * **Social Media** provides APIs to share the post in user's social media accounts.
  * **Notifications** are used to send user notifications such as emails or push notifications for mobile applications.
 
@@ -237,30 +237,30 @@ As we can see the system has many-many integration points:
 
 In the first phase we want to enable users interaction with the system in general. To make this possible, we have introduced the following components:
 - **Road Warrior UI**: This is a web application, with all static content hosted on a global Content Delivery Network (CDN).
-- **Gateway API**: This component operates as a REST API, serving as a centralized entry point for all external incoming requests. Its responsibilities include user authentication and the orchestration of business logic across microservices. 
+- **Gateway API**: This component operates as a REST API, serving as a centralized entry point for all external incoming requests. Its responsibilities include user authentication and the orchestration of business logic across microservices.
 - To verify user identity **Gateway API** interacts with **Identity API**.
 
 The next phase involves enabling users to interact with reservations, trips, user profiles, and more. To achieve this, we're introducing the Data Readers/Updaters Container:
-- **Data Readers**: These components provide data to the Gateway API and other microservices within the system. 
+- **Data Readers**: These components provide data to the Gateway API and other microservices within the system.
 They will implement search and filtering capabilities and the ability to retrieve full objects by their unique IDs.
 - **Data Updaters**: These components are responsible for applying changes to objects in the database and ensuring their consistency and integrity are maintained.
 
-Now, as we've enabled manual operations with objects, it's time to automate the tracking and discovery of reservations. 
+Now, as we've enabled manual operations with objects, it's time to automate the tracking and discovery of reservations.
 To achieve this, we've introduced the Trackers Container:
-- **Emails Tracker**: This service is responsible for scanning users' email inboxes, searching for reservations, and extracting all the necessary information from them. 
-Its primary role is to discover new reservations. 
+- **Emails Tracker**: This service is responsible for scanning users' email inboxes, searching for reservations, and extracting all the necessary information from them.
+Its primary role is to discover new reservations.
 It interacts with email via API, respecting user settings and permissions.
-- **Reservation Trackers**: These services are responsible for ensuring that we have the latest reservation itineraries. 
-They maintain their internal state of active reservations to track changes. 
+- **Reservation Trackers**: These services are responsible for ensuring that we have the latest reservation itineraries.
+They maintain their internal state of active reservations to track changes.
 - Any identified changes are then passed on to the **Data Updaters** for persistence in the database.
 
-In conclusion, we must address how the system communicates with the external world. To facilitate this, we're introducing the Sharing and Notification Containers:
+Once the system is set up to collect and consistently update information, it's essential to create a feature that enables the sharing of this information with both registered system users and external ones. To facilitate this, we're introducing the Sharing and Notification Containers:
 - **Sharing**: This component empowers users to share their Trips and Reservations with others within the app or create posts for sharing on their preferred social media platforms. To ensure a seamless user experience, it will interact with Social Media Aggregators, which will be specified later.
-- **Notification Publisher**: This component takes on the responsibility of informing users about significant changes to their reservations and notifying them when someone shares content with them within the app. 
+- **Notification Publisher**: This component takes on the responsibility of informing users about significant changes to their reservations and notifying them when someone shares content with them within the app.
 It achieves this by interacting with external Notification APIs to deliver emails and push notifications to mobile apps.
 
 The final but equally essential function is the ability to generate analytical reports. To accomplish this, we introduce the Reporting Container:
-- **Analytical Reports Generator**: This service extracts data through the Data Reader and generates monthly Vendor reports. These reports can be accessed by Support personnel or annual user reports, providing insights into their travel history for the past year. This feature enables data-driven decision-making and enhances the overall functionality of the system.
+- **Analytical Reports Generator**: This service is responsible for extracting data through the Data Reader and producing two distinct types of reports. The first type consists of monthly Vendor reports, which are accessible to Support personnel and can also be shared with external parties. The second type of report is the annual user report, which offers insights into user travel history for the previous year. This functionality empowers data-driven decision-making and enhances the overall system's capabilities.
 
 ![Level 2 - Software System - Road Warrior](context_viewpoint/images/level2.jpg)
 
@@ -271,13 +271,13 @@ The final but equally essential function is the ability to generate analytical r
 - #### [Emails Trackers](context_viewpoint/README.md#level-3---container---emails-tracker)
 - #### [Reservation Trackers](context_viewpoint/README.md#level-3---container---reservation-trackers)
 - #### [Notification Publisher](context_viewpoint/README.md#level-3---container---notification-publisher)
-- #### Sharing
-- #### Analytical Reports Generator
-- #### User Data Reader/Updater
-- #### Reservation Data Reader/Updater
-- #### Travel Agencies Data Reader/Updater
-- #### Notifications Data Reader/Updater
-- #### Trips Data Reader/Updater
+- #### [Sharing](context_viewpoint/README.md#level-3---container---sharing)
+- #### [Analytical Reports Generator](context_viewpoint/README.md#level-3---container---analytical-reports-generator)
+- #### [User Data Reader/Updater](context_viewpoint/README.md#level-3---container---user-data-readerupdater)
+- #### [Reservation Data Reader/Updater](context_viewpoint/README.md#level-3---container---reservation-data-readerupdater)
+- #### [Travel Agencies Data Reader/Updater](context_viewpoint/README.md#level-3---container---travel-agencies-data-readerupdater)
+- #### [Notifications Data Reader/Updater](context_viewpoint/README.md#level-3---container---notifications-data-readerupdater)
+- #### [Trips Data Reader/Updater](context_viewpoint/README.md#level-3---container---trips-data-readerupdater)
 
 
 ## Operational Viewpoint
@@ -298,7 +298,7 @@ The client side:
 - The web/mobile application.
 
 The Road Warrior system:
-- All services we put on servers.  
+- All services we put on servers.
 
 A number of Third party we need to provide our features:
 - **Identity providers for authentication**. So a user can use usual identity for simple login.
@@ -377,19 +377,19 @@ You can find further information below regarding the specific functioning of ind
 
 > *Describes the architecture that supports the software development process.*
 
-When designing a software architecture, it's crucial to consider how it will be developed. 
-Evolvability, the ability to make changes over time, is a critical non-functional requirement. 
+When designing a software architecture, it's crucial to consider how it will be developed.
+Evolvability, the ability to make changes over time, is a critical non-functional requirement.
 A well-structured development process, enhanced by automation, enables quick changes while maintaining product quality at a reasonable level.
 There are several decisions to make regarding the development process:
-- **[Code Storage and Structure](development_viewpoint/README.md#code-structure)**: 
+- **[Code Storage and Structure](development_viewpoint/README.md#code-structure)**:
 We will begin our app with two mono repositories: one for the frontend (covering both web and mobile apps) and another for all the backend microservices. This approach allows us to efficiently manage development in the early stages and maximize code reuse. It's important to note that a well-structured monorepo can always be divided into smaller repositories if needed.
 To ensure flexibility and minimize direct code dependencies, we'll implement a strategy where code sharing occurs through libraries or plugins managed as separate artifacts. This way, we maintain modularity and can quickly adapt to changing requirements in the future.
-- **[Code Merge Strategy](development_viewpoint/README.md#code-merge-strategy)**: 
+- **[Code Merge Strategy](development_viewpoint/README.md#code-merge-strategy)**:
 Due to constraints on our mobile app release schedule, we've opted to implement **[GitLab Flow](development_viewpoint/README.md#gitlab-flow)** for both frontend and backend development. This choice aims to streamline joint releases and simplify our overall workflow.
 - **[Automation vs. Manual Processes](development_viewpoint/README.md#automation-vs-manual)**:
-For our app we decided to use full testing automation for the backend, while keeping manual QAs for frontend. 
+For our app we decided to use full testing automation for the backend, while keeping manual QAs for frontend.
 Frontend testing automation is very sensitive and time-consuming process, while app is developing it will increase our time to market.
-- **DevOps Platform**: Something like GitLab or GitHub will work for us.  
+- **DevOps Platform**: Something like GitLab or GitHub will work for us.
 
 ![Development Viewpoint](development_viewpoint/images/development.jpg "Development Viewpoint")
 
@@ -435,11 +435,10 @@ Based on the provided requirements for a project "The Road Warrior", here are th
 - [Employee Training and Awareness](security_perspective/README.md#employee-training-and-awareness)
 - [Regular Security Audits](security_perspective/README.md#regular-security-audits)
 
-
 ## Architecture decision records
 
 - ### [ADR-1](adrs/adr-1-architecture-style.md) Use Event-Driven Architecture style
-- ### [ADR-2](adrs/adr-2-api-layer.md) Use API layer as single point of contact for all user interfaces 
+- ### [ADR-2](adrs/adr-2-api-layer.md) Use API layer as single point of contact for all user interfaces
 - ### [ADR-3](adrs/adr-3-data-reader.md) Use API based synchronous Data Readers
 - ### [ADR-4](adrs/adr-4-data-updater.md) Use messaging based asynchronous Data Updaters
 - ### [ADR-5](adrs/adr-5-trackers.md) Use messaging based asynchronous Trackers
@@ -453,7 +452,7 @@ Based on the provided requirements for a project "The Road Warrior", here are th
 - ### [ADR-13](adrs/adr-13-infrastructure.md) Use Multi Zone Infrastructure
 - ### [ADR-14](adrs/adr-14-no-sql-database.md) Use self-managed NoSQL Database with object-oriented model
 - ### [ADR-15](adrs/adr-15-message-broker.md) Use self-managed Message Broker
- 
+
 # Implementation milestones
 Implementing the startup approach for "The Road Warrior," which emphasizes launching a Minimum Viable Product (MVP) quickly, gathering user feedback, and continuously integrating external APIs and data providers, requires a different set of implementation milestones.
 
