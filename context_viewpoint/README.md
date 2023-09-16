@@ -151,3 +151,14 @@ Data flow in the container is split into two parts:
 2. **Data read** flow takes the data from the `Notification` table and shares it with other parties via the `Notifications Data Reader` microservice. Notification data is being read by `Gateway API` for presentation in the applications.
 
 ![Level 3 - Container - Notifications Data Reader/Updater](images/Level-3-Container-Travel-Agencies-Data-Reader-Updater.jpg)
+
+### Level 3 - Container - Trips Data Reader/Updater
+
+Data flow in the container is split into two parts:
+1. **Data update** flow controls two different data types:
+    - Updates related to a trip. It starts with the `Trip Updates` topic, which receives updates from the `Gateway API`. Updates are processed by the `Trips Data Updater` microservice and stored in the `Trip` table.
+    - Updates related to trip access changes. It starts with the `Trip Access Updates` topic, which receives updates from the `Sharing` service. Updates are processed by the `Trips Access Data Updater` microservice and stored in the `Trip Access Control List` table.
+
+2. **Data read** flow takes the data from the `Trip` and `Trip Access Control List` tables and shares it with other parties via the `Trip Data Reader` microservice. Trip info is being read by `Gateway API` for presentation in the applications, by `Sharing` for generating social media posts with Trip info, and by `Analytical Report Generator` for report generation.
+
+![Level 3 - Container - Trips Data Reader/Updater](images/Level-3-Container-Trips-Data-Reader-Updater.jpg)
