@@ -21,6 +21,7 @@ Based on the provided requirements for a project "The Road Warrior", here are th
 * Always communicate with the API over HTTPS (TLS/SSL) to encrypt data in transit and protect it from eavesdropping.
 * Regularly rotate API keys and tokens to minimize the risk of compromise.
 * Ensure that data sent to and received from the API is validated and sanitized to prevent injection attacks, such as SQL injection or Cross-Site Scripting (XSS).
+* Ensure to use reliable token based protection from Cross-Site Request Forgery (CSRF) attacks.
 
 ### Secure Credentials Management
 * Use strong encryption algorithms to store credentials, such as passwords and API keys, in a secure and encrypted format.
