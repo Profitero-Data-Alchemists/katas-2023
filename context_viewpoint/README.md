@@ -124,7 +124,7 @@ Generation of reports of each type implemented by separate microservices: `Vendo
 
 Data flow in the container is split into two parts:
 1. **Data update** flow starts with the `User Data Updates` topic, which receives updates from `Gateway API`. Updates are processed by the `User Data Updater` microservice and stored in the `User` table.
-2. **Data read** flow takes the data from the `User` table and shares it with other parties via the `User Data Reader` microservice. User data is being read by `Gateway API` for presenting in the applications, by `Notification Publisher` for filtering notifications according to the user's notification settings, by `Trackers` for user emails, and by `Analytical Report Generator` for reports generation.
+2. **Data read** flow takes the data from the `User` table and shares it with other parties via the `User Data Reader` microservice. User data is being read by `Gateway API` for presentation in the applications, by `Notification Publisher` for filtering notifications according to the user's notification settings, by `Trackers` for user emails, and by `Analytical Report Generator` for report generation.
 
 ![Level 3 - Container - User Data Reader/Updater](images/Level-3-Container-User-Data-Reader-Updater.jpg)
 
@@ -132,6 +132,14 @@ Data flow in the container is split into two parts:
 
 Data flow in the container is split into two parts:
 1. **Data update** flow starts with the `Reservations Data Updates` topic, which receives updates from `Trackers`. Updates are processed by the `Reservations Data Updater` microservice and stored in the `Reservation` table.
-2. **Data read** flow takes the data from the `Reservation` table and shares it with other parties via the `Reservations Data Reader` microservice. Reservations data is being read by `Trackers` for polling reservation updates, by `Gateway API` for presenting in the applications, by `Trackers` for user emails, and by `Analytical Report Generator` for reports generation.
+2. **Data read** flow takes the data from the `Reservation` table and shares it with other parties via the `Reservations Data Reader` microservice. Reservations data is being read by `Trackers` for polling reservation updates, by `Gateway API` for presentation in the applications, by `Trackers` for user emails, and by `Analytical Report Generator` for report generation.
 
-![Level 3 - Container - User Data Reader/Updater](images/Level-3-Container-Reservations-Data-Reader-Updater.jpg)
+![Level 3 - Container - Reservation Data Reader/Updater](images/Level-3-Container-Reservations-Data-Reader-Updater.jpg)
+
+### Level 3 - Container - Travel Agencies Data Reader/Updater
+
+Data flow in the container is split into two parts:
+1. **Data update** flow starts with the `Travel Agency Data Updates` topic, which receives updates from `Gateway API`. Updates are processed by the `Travel Agency Data Updater` microservice and stored in the `Travel Agency` table.
+2. **Data read** flow takes the data from the `Travel Agency` table and shares it with other parties via the `Travel Agency Data Reader` microservice. Travel Agency data is being read by `Gateway API` for presentation in the applications and by `Analytical Report Generator` for report generation.
+
+![Level 3 - Container - Travel Agencies Data Reader/Updater](images/Level-3-Container-Travel-Agencies-Data-Reader-Updater.jpg)
