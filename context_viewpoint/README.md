@@ -39,3 +39,22 @@ Once there is a change in the reservation, the system initiates notification of 
 Every Trip that a user owns in his account can be shared with other users by posting a message on social media or by sharing the Trip with targeted people. Both of these sharing mechanisms are implemented in container ``Sharing``.
 
 All information about User data, Trips, Reservations, Travel Agencies and Notifications is stored and shared with readers by container `Data Readers/Updaters`.
+
+## Level 3 - Containers
+
+Information presented on the third level of context viewpoint drilled down to the internals of the containers from the previous level.
+
+### Level 3 - Container - Emails Tracker
+
+![Level 3 - Container - Emails Tracker](/context_viewpoint/images/Level-3-Container-Emails-Tracker.svg)
+
+Implementation of Email tracker based on the use of the Compacted topics. Emails that are used to track new reservations are registered by microservice `Email Tracking List Editor` into compacted topic `Email Addresses`. Each email from the topic is processed by the `Emails Tracker` microservice, which includes:
+1. polling new emails compared to a previous state (if any),
+2. store new emails to parse to `Unparsed User Emails` topic,
+3. store the last processed email timestamp back to the `Email Addresses` compacted topic.
+
+That way on each new iteration the `Emails Tracker` microservice will be able to identify and process new user emails.
+
+Emails from the `Unparsed User Emails` are captured by the microservice `Emails Parser` which parses the content of the user emails to discover new reservations. Found new reservations stored in the `Email Reservations` topic. The microservice `Reservations Updater` processes reservations from the topic:
+1. Stores reservation info in `Reservations Data Reader/Updater` service,
+2. Sends an update to the `Notification Publisher` service.
