@@ -6,6 +6,7 @@ Based on functional requirements we identified main flow our application should 
 Of coarse there are additional flows but all of them are connected to main one in some way.
 
 
+
 <img align="right" width="200" height="200" src="legend.jpg">
 
 
@@ -15,6 +16,11 @@ Of coarse there are additional flows but all of them are connected to main one i
 - **Function**: Action performed by Actor
 - **Data Element**: May represent an object or it's attribute
 - **Constraint**: Functional limitation introduced to simplify system
+
+##Table of Contents
+
+
+
 ## Main Flow
 
 The primary flow of our application begins with user registration. Once a user successfully logs in, they have two main options: they can manually enter reservations or set up an email integration to automatically discover reservations in their inbox.
