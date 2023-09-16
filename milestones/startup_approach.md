@@ -111,7 +111,7 @@ Implementing the startup approach for "The Road Warrior," which emphasizes launc
 * Implement marketing strategies to acquire new users.
 * Address scaling challenges as user numbers grow.
 
-### Iteration 11: Continuous Improvement
+### Iteration 13: Continuous Improvement
 **Goal:** Continuously improve the product and user experience.
 
 **Tasks:**
