@@ -95,3 +95,18 @@ The first two are implemented using the 3rd party API for sending mobile-native 
 
 ![Level 3 - Container - Notification Publisher](images/level3_notifications.jpg)
 
+
+### Level 3 - Container - Sharing
+
+Sharing container provides two options for a user to share information about his trips:
+1. Create and share in the user's social media profile a post with high-level information about the user's trip
+2. Invite another user to the trip with a specified access level (viewer/co-traveler/owner).
+
+Both of the sharing actions start from the user's request in the RoadWarrior app. The first scenario is controlled by the `Trip Access Provider` microservice, which does two actions:
+1. Sends trip access changes to the `Trip Data Reader/Updater`.
+2. Initiates notification via `Notification Publisher` to the invited user about granted access to the Trip.
+
+The second scenario is being processed by the `Social Media Post Generator` microservice. It gathers the trip info from the `Trip Data Reader/Updater` and combines post content from it. Generated post content sent by microservice to the `Social Media` 3rd party API, provides an ability to share posts on the user's behalf in it's social media account.
+
+![Level 3 - Container - Sharing](images/Level-3-Container-Sharing.jpg)
+
