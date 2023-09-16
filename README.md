@@ -8,9 +8,25 @@
 - [Dmitry Trofimov](https://www.linkedin.com/in/tdslinkedin/)
 - [Oleg Zubchenko](https://www.linkedin.com/in/rgbd-me/)
 
-## Contents
+## Table of Contents
 
-TODO
+<!-- TOC -->
+* [Welcome](#welcome)
+* [Business Case](#business-case)
+* [Requirements](#requirements)
+* [Proposed Architecture](#proposed-architecture)
+  * [Architecture Style](#architecture-style)
+  * [Functional Viewpoint](#functional-viewpoint)
+  * [Context Viewpoint](#context-viewpoint)
+  * [Operational Viewpoint](#operational-viewpoint)
+  * [Informational Viewpoint](#informational-viewpoint)
+  * [Concurrency Viewpoint](#concurrency-viewpoint)
+  * [Development Viewpoint](#development-viewpoint)
+  * [Deployment Viewpoint](#deployment-viewpoint)
+  * [Security Perspective](#security-perspective)
+  * [Architecture decision records](#architecture-decision-records)
+* [Implementation milestones](#implementation-milestones)
+<!-- TOC -->
 
 ## Welcome
 
@@ -146,11 +162,11 @@ In alignment with the top three key characteristics, the team selected an **even
 
 #### Implicit Architecture Characteristics
 
-| Characteristic | Description                                                                                                                                                                                                                              |
-|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Availability     | Users must be able to access the system at all times, with a maximum of 5 minutes per month of unplanned downtime. <br/> - High availability is crucial to ensure that travelers can access their trip information whenever they need it. |
-| Security      | Filtering and whitelisting certain emails are security measures to prevent unwanted or malicious emails.<br/> - Ensuring the security of user data and interactions is essential, especially in the context of travel-related information. |
-| Maintainability | Maintainability is critical for managing and analyzing data over time, adapting to changing requirements. Especially for just launched product on the market                                                                             |
+| Characteristic | Description                                                                                                                                                                                                                             |
+|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Availability     | Users must be able to access the system at all times, with a maximum of 5 minutes per month of unplanned downtime. <br/> High availability is crucial to ensure that travelers can access their trip information whenever they need it. |
+| Security      | Filtering and whitelisting certain emails are security measures to prevent unwanted or malicious emails.<br/> Ensuring the security of user data and interactions is essential, especially in the context of travel-related information. |
+| Maintainability | Maintainability is critical for managing and analyzing data over time, adapting to changing requirements. Especially for just launched product on the market                                                                            |
 
 ## Functional Viewpoint
 
@@ -263,6 +279,52 @@ The final but equally essential function is the ability to generate analytical r
 - #### [Notifications Data Reader/Updater](context_viewpoint/README.md#level-3---container---notifications-data-readerupdater)
 - #### [Trips Data Reader/Updater](context_viewpoint/README.md#level-3---container---trips-data-readerupdater)
 
+
+## Operational Viewpoint
+
+> *Describes how the system will be operated when it is running on production environment.*
+
+Here we connect the main user flow with the system context. The base things a user do in the application are:
+- **[Login](operational_viewpoint/README.md#login)**. The app needs to know who going to get help with his trips.
+- **[Setup application](operational_viewpoint/README.md#application-setup)**. The user has to register a profile in the app to create a context and establish rules.
+- **[Setup a trip](operational_viewpoint/README.md#setup-a-trip)**. The travel is being planned, thus the user shares with the application what to track by adding reservations into the system.
+- **[Share a trip](operational_viewpoint/README.md#share-a-trip)**. It is always useful to be able to share your experience easily.
+
+Then the Road Warrior application steps into play. The application can collect reservations automatically, tracking updates and allows making changes. The system will inform the traveler and let him keep friends up to date.
+ To do the staff, the system involves:
+
+The client side:
+- The user, firstly.
+- The web/mobile application.
+
+The Road Warrior system:
+- All services we put on servers.
+
+A number of Third party we need to provide our features:
+- **Identity providers for authentication**. So a user can use usual identity for simple login.
+- **Reservation sources**. Travel agencies and travel systems where we can collect actual information and same time and efforts for the user.
+- **Notifications services**, to keep the user informed regardless of the device he is using.
+- **Social media aggregator**. The service connecting us to social networks.
+
+The next schema shows how all it works together to satisfy  our users:
+
+
+![Base Operational](operational_viewpoint/images/L1_Operational_RoadWarrior.jpg "Base operations diagram")
+
+
+## Informational Viewpoint
+
+> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+
+The data model is pivotal in any application, directly impacting performance and scalability. To meet these requirements effectively, we recommend adopting a NoSQL approach for data storage. Our proposal involves maintaining object-oriented tables to eliminate the need for complex joins. This approach offers several advantages:
+- Exceptional Performance: By avoiding joins, we ensure outstanding performance for both read and write operations.
+- Horizontal Scalability: We can quickly scale our database horizontally by partitioning data across multiple nodes, supporting our scalability needs as the application grows.
+
+
+This strategy enhances performance and provides the flexibility needed to accommodate increasing data volumes and user loads.
+
+### [Data Model Details](information_viewpoint/README.md#here-you-can-find-more-details-about-proposed-data-model)
+
 ## Concurrency Viewpoint
 
 > *Describes the concurrency structure of the system and maps functional elements to concurrency units to clearly identify the parts of the system that can execute concurrently and how this is coordinated and controlled.*
@@ -356,55 +418,57 @@ By meticulously designing and implementing these components, we aim to create sy
 
 ![Environment](deployment_viewpoint/images/deployment_env.jpg "Environment")
 
-## Informational Viewpoint
+## Security Perspective
 
-> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+> *The ability of the system to reliably control, monitor, and audit who can perform what actions on what resources and to detect and recover from failures in security mechanisms*
 
-The data model is pivotal in any application, directly impacting performance and scalability. To meet these requirements effectively, we recommend adopting a NoSQL approach for data storage. Our proposal involves maintaining object-oriented tables to eliminate the need for complex joins. This approach offers several advantages:
-- Exceptional Performance: By avoiding joins, we ensure outstanding performance for both read and write operations.
-- Horizontal Scalability: We can quickly scale our database horizontally by partitioning data across multiple nodes, supporting our scalability needs as the application grows.
+Based on the provided requirements for a project "The Road Warrior", here are the security practices that are required:
 
-
-This strategy enhances performance and provides the flexibility needed to accommodate increasing data volumes and user loads.
-
-[Here you can find more details about proposed data model](information_viewpoint/README.md#here-you-can-find-more-details-about-proposed-data-model)
-
-## Operational Viewpoint
-
-> *Describes how the system will be operated when it is running on production environment.*
-
-Here we connect the main user flow with the system context. The base things a user do in the application are:
-- **[Login](operational_viewpoint/README.md#login)**. The app needs to know who going to get help with his trips.
-- **[Setup application](operational_viewpoint/README.md#application-setup)**. The user has to register a profile in the app to create a context and establish rules.
-- **[Setup a trip](operational_viewpoint/README.md#setup-a-trip)**. The travel is being planned, thus the user shares with the application what to track by adding reservations into the system.
-- **[Share a trip](operational_viewpoint/README.md#share-a-trip)**. It is always useful to be able to share your experience easily.
-
-Then the Road Warrior application steps into play. The application can collect reservations automatically, tracking updates and allows making changes. The system will inform the traveler and let him keep friends up to date.
- To do the staff, the system involves:
-
-The client side:
-- The user, firstly.
-- The web/mobile application.
-
-The Road Warrior system:
-- All services we put on servers.
-
-A number of Third party we need to provide our features:
-- **Identity providers for authentication**. So a user can use usual identity for simple login.
-- **Reservation sources**. Travel agencies and travel systems where we can collect actual information and same time and efforts for the user.
-- **Notifications services**, to keep the user informed regardless of the device he is using.
-- **Social media aggregator**. The service connecting us to social networks.
-
-The next schema shows how all it works together to satisfy  our users:
-
-
-![Base Operational](operational_viewpoint/images/L1_Operational_RoadWarrior.jpg "Base operations diogram")
-
-
-
-
-
-## Costs?
-
+- [Authentication and Authorization](security_perspective/README.md#authentication-and-authorization)
+- [Data Encryption in Transit](security_perspective/README.md#data-encryption-in-transit)
+- [Data Encryption at Rest](security_perspective/README.md#data-encryption-at-rest)
+- [Secure API Integration](security_perspective/README.md#secure-api-integration)
+- [Secure Credentials Management](security_perspective/README.md#secure-credentials-management)
+- [Session Management](security_perspective/README.md#session-management)
+- [Security Testing](security_perspective/README.md#security-testing)
+- [Incident Response Plan](security_perspective/README.md#incident-response-plan)
+- [Employee Training and Awareness](security_perspective/README.md#employee-training-and-awareness)
+- [Regular Security Audits](security_perspective/README.md#regular-security-audits)
 
 ## Architecture decision records
+
+- ### [ADR-1](adrs/adr-1-architecture-style.md) Use Event-Driven Architecture style
+- ### [ADR-2](adrs/adr-2-api-layer.md) Use API layer as single point of contact for all user interfaces
+- ### [ADR-3](adrs/adr-3-data-reader.md) Use API based synchronous Data Readers
+- ### [ADR-4](adrs/adr-4-data-updater.md) Use messaging based asynchronous Data Updaters
+- ### [ADR-5](adrs/adr-5-trackers.md) Use messaging based asynchronous Trackers
+- ### [ADR-6](adrs/adr-6-sharing.md) Use API based synchronous Sharing service
+- ### [ADR-7](adrs/adr-7-publishers.md) Use messaging based asynchronous Publishers
+- ### [ADR-8](adrs/adr-8-scaling-groups.md) Use separate Scaling Groups for different workloads
+- ### [ADR-9](adrs/adr-9-topics.md) Use topics and compacted topics for message handling
+- ### [ADR-10](adrs/adr-10-partitioning-key.md) Use same Partitioning Key for corresponding topics and tables
+- ### [ADR-11](adrs/adr-11-monorepos.md) Use separate Monorepo for Frontend and Backend
+- ### [ADR-12](adrs/adr-12-gitlab-flow.md) Use GitLab Flow Merge strategy
+- ### [ADR-13](adrs/adr-13-infrastructure.md) Use Multi Zone Infrastructure
+- ### [ADR-14](adrs/adr-14-no-sql-database.md) Use self-managed NoSQL Database with object-oriented model
+- ### [ADR-15](adrs/adr-15-message-broker.md) Use self-managed Message Broker
+
+# Implementation milestones
+Implementing the startup approach for "The Road Warrior," which emphasizes launching a Minimum Viable Product (MVP) quickly, gathering user feedback, and continuously integrating external APIs and data providers, requires a different set of implementation milestones.
+
+| Iteration | Goal | Tasks                                                                                                                                                                                                                                                                                                                                                               |
+|-----------|--|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Start**     | Project initiation and planning | - Define project objectives and scope.<br/>- Assemble Scrum teams.<br/>- Create a high-level project plan.<br/> - Set up communication and collaboration tools.<br/>- Conduct initial backlog refinement. |
+| **MVP Development**     |  Develop the MVP for web and initiate mobile app development (Android or iOS) | - Define MVP features, prioritizing essential functionalities. <br/> - Set up development environments for web and mobile. <br/>- Develop core features, including email polling, basic reservation management, and basic UI. <br/>- Implement basic authentication for web and mobile with limited list of providers. <br/>- Plan for rapid deployment of the MVP. |
+| **MVP Deployment and Beta Testing** | Deploy the MVP to a limited user base for beta testing. | - Conduct internal testing to ensure stability.<br/>- Create a beta user group and recruit participants.<br/>- Deploy the MVP to beta users on web and mobile.<br/>- Gather user feedback through surveys, in-app feedback forms, and user interviews.  |
+| **MVP Feedback Integration** | Integrate user feedback and make improvements to the MVP. | - Analyze user feedback and prioritize enhancements.<br/>- Iterate on UI/UX improvements based on beta user input.<br/>- Address critical issues and bugs identified during beta testing.<br/>- Deploy updated versions of the MVP to beta users. |
+| **Initial API Integration** | Begin integrating external APIs and data providers. | - Identify and prioritize external APIs and data sources for integration (e.g., travel data providers, social media APIs).<br/>- Develop API integration modules.<br/>- Conduct initial testing of integrated data sources.<br/>- Ensure that MVP features benefit from external data sources. |
+| **Version 1.0 Release** |  Release an improved version of the MVP with additional features. | - Implement features based on user feedback (e.g., improved reservation management, social media sharing).<br/>- Enhance UI/UX based on beta user input.<br/>- Perform additional testing to ensure stability.<br/>- Launch Version 1.0 for both web and mobile. |
+| **Continuous Feedback and Iteration** | Continuously gather feedback and iterate on the product. | - Maintain a feedback loop with beta users.<br/>- Prioritize and implement features and enhancements based on user needs.<br/>- Address bugs and issues promptly.<br/>- Deploy regular updates to improve the user experience. |
+| **API Expansion and Data Providers** | Consistently connect new external APIs and data providers. | - Identify and evaluate new API and data source opportunities.<br/>- Develop and test API integrations.<br/>- Ensure seamless data synchronization and accuracy.<br/>- Continuously expand the range of travel-related data available to users.  |
+| **Adding the Second Mobile App Platform** | Initiate development for the second mobile app platform (Android or iOS, whichever was not chosen initially). | - Set up the development environment for the second mobile app platform.<br/>- Adapt existing MVP features and improvements to the second platform.<br/>- Implement authentication and ensure feature parity with the first platform. |
+| **MVP Deployment for Second Platform** | Deploy the MVP to a limited user base for beta testing on the second mobile app platform. | - Conduct internal testing to ensure stability for the second platform.<br/>- Create a beta user group and recruit participants for the second platform.<br/>- Deploy the MVP to beta users on the second platform.<br/>- Gather user feedback through surveys, in-app feedback forms, and user interviews for the second platform. |
+| **Version 2.0 Release** | Launch a feature-rich Version 2.0 of the product. | - Implement advanced features (e.g., travel trends analytics, advanced reporting).<br/>- Enhance UI/UX based on user feedback and industry trends.<br/>- Perform extensive testing, including performance and security.<br/>- Plan a marketing campaign for the Version 2.0 launch. |
+| **Scaling and User Growth** | Scale infrastructure and expand the user base. | - Monitor system performance and scalability.<br/>- Optimize server and database resources.<br/>- Implement marketing strategies to acquire new users.<br/>- Address scaling challenges as user numbers grow. |
+| **Continuous Improvement** | Continuously improve the product and user experience. | - Gather feedback from a growing user base.<br/>- Stay updated with industry trends and new API opportunities.<br/>- Implement regular updates and improvements.<br/>- Plan for long-term product evolvability. |
+
