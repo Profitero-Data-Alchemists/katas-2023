@@ -1,9 +1,9 @@
-# ADR 1: Template
+# ADR 1: Architecture style
 
 **Date**: 2023-09-15
 
 ## Status
-Confirmed
+Proposed
 
 ## Context
 During the requirements analysis phase, the team identified several crucial architectural characteristics for the system: **Performance**, **Scalability**, and **Evolvability**. By using the Architecture Styles Worksheet, the team assessed these key characteristics and ultimately chose the event-driven architecture as the most suitable option.
