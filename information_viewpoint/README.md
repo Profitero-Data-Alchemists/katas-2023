@@ -160,19 +160,20 @@ controlled data access in the sharing feature.
   users and their corresponding roles granted for the trip.
 
 
-## Trip Access Control
-Trip Access Control List entity holds information on access of users to the
-trips that have been shared with the by other users. Used solely for
-authorization.
+## Trip Access Control List
+
+The Trip Access Control List entity manages user access to trips that have been
+shared by other users. Its sole purpose is for authorization.
 
 ### Fields
-- Role - enumeration with different access levels for the trip. Levels of access
-  range from "full read access" used for co-travellers to "trip dates and
-  locations" for case of sharing data with wider and/or less trusted audiences,
+- Role: This field is an enumeration offering various access levels for the
+  trip. Access levels range from "full read access" used for co-travelers, to
+  "trip dates and locations" for cases where data is shared with a broader or
+  less trusted audience.
 
 ### Outbound Links
-- User - user for whom the access role applies
-- Trip - trip to which the access control rule applies
+- User: Identifies the user for whom the access role applies.
+- Trip: Specifies the trip to which the access control rule applies.
 
 
 ## Travel Agency
