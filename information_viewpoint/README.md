@@ -129,6 +129,37 @@ identifiable and traceable within travel agency reservation management systems.
   details, extracted to a separate collection for enhanced performance.
 
 
+## Reservation Itinerary
+The Reservation Itinerary entity encapsulates historical snapshots of a
+reservation's itinerary details. This collection serves as a log for updates to
+the reservation's state and specifics.
+
+### Decisions
+- To alleviate the potential strain of itinerary updates, the core itinerary
+  data is stored in this separate data collection. Operations on this
+  collection include reading and writing, but not updates.
+- Certain fields are denormalized and duplicated for performance, such as Tracking Info.
+- Some fields are dynamic to allow for flexibility in data schema and to streamline data handling.
+
+### Fields
+- Primary Key:
+- Reservation ID: Identifies the reservation related to this itinerary record.
+- Timestamp: Marks the moment when the update in details was recorded by the tracking system. This information is used for tracking and analytical purposes.
+
+### Tracking Data
+- Tracking Info: Personal details used to retrieve reservation details from
+  reservation tracking systems.
+- Start Date: Timestamp of the reservation's start date. Extracted to a separate
+  field for performance.
+- End Date: Timestamp of the reservation's end date. Also extracted to a
+  separate field for performance.
+- Update Type: An enumeration specifying different types of updates, such as
+  creation, rescheduling, or cancellation. This categorization is utilized for
+  analytical purposes.
+- Details: This field contains free-format data about the reservation. Its
+  dynamic nature allows for flexibility and simplifies data interpretation.
+
+
 ## Trip
 
 The Trip entity represents a collection of reservations, providing a convenient
