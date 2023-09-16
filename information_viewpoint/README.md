@@ -199,17 +199,18 @@ Decisions:
 
 ## Notification
 
-Notification entity records deliverance of app notifications to the users.
+The Notification entity logs the delivery of app notifications to users.
 
 ### Fields
-- ID
-- Status - delivered or not
-- Type - to allow for identification of different interpretation in code and richer
-  content for the user.
-- Type Specific Data - dynamic field, data to present to the user.
+- ID: Unique identifier for the notification.
+- Status: Indicates whether the notification has been delivered or not.
+- Type: Enables identification of different interpretations in code and provides
+  richer content for the user.
+- Type Specific Data: A dynamic field containing data to be presented to the
+  user.
 
 ### Outbound Links
-- User - the intended recepient of the notification
+- User: Identifies the intended recipient of the notification.
 
 
 ## User Report
