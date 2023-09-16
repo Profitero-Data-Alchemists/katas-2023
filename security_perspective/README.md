@@ -1,6 +1,6 @@
-# Security
+# Security Perspective
 
-Based on the provided requirements for a project "The Road Warrior", here are the security practices that are applicable:
+Based on the provided requirements for a project "The Road Warrior", here are the security practices that are required:
 
 ### Authentication and Authorization
 * The requirement for user accounts and user authentication implies the need for strong authentication mechanisms, such as secure password storage, multi-factor authentication (MFA), and secure user sessions to protect against unauthorized access.
@@ -16,7 +16,7 @@ Based on the provided requirements for a project "The Road Warrior", here are th
 * Implement robust key management practices, including key rotation and secure storage of encryption keys.
 * Ensure that logs, including error logs and database logs, do not inadvertently expose sensitive data. Log entries should not contain plaintext user data.
 
-### Secure API Integration 
+### Secure API Integration
 * Ensure that external API use strong authentication mechanisms, such as API keys, OAuth2, or tokens, to verify the identity of the requesting entities.
 * Always communicate with the API over HTTPS (TLS/SSL) to encrypt data in transit and protect it from eavesdropping.
 * Regularly rotate API keys and tokens to minimize the risk of compromise.
@@ -31,7 +31,7 @@ Based on the provided requirements for a project "The Road Warrior", here are th
 ### Session Management
 * Secure session management is crucial to protect user sessions (especially for multiple devices) and prevent session-related attacks, especially when users interact with their reservations and travel information.
 
-### Security Testing 
+### Security Testing
 * Choose the right security testing tools and techniques based on application's technology stack. Common security testing methods include penetration testing, code review, vulnerability scanning, and checking the code for the presence of credentials.
 * Consider automated security testing tools (e.g., OWASP ZAP, Nessus, Burp Suite) for detecting common vulnerabilities.
 * Conduct regular security scans and assessments throughout the development lifecycle, including during development, staging, and production phases.
@@ -43,6 +43,6 @@ Based on the provided requirements for a project "The Road Warrior", here are th
 ### Employee Training and Awareness
 * Security training and awareness are crucial for all team members to prevent security lapses.
 
-### Regular Security Audits 
+### Regular Security Audits
 * Regular security audits help assess the overall security posture of the project and identify vulnerabilities.
 * To conduct routine regular audits effectively, it's crucial to gather and retain an extensive collection of logs (e.g. Authentication/Authorization Logs, System Logs, Network Logs, etc) spanning several months. 
