@@ -7,7 +7,7 @@ We plan to establish two stable environments—one for production workloads and 
 Our strategy involves leveraging third-party DevOps and Observability platforms to avoid the need to dedicate time to setting up development and monitoring tools. This approach allows us to focus more on our core development and operational tasks while benefiting from the capabilities offered by established platforms.
 
 
-![Deployment Viewpoint](deployment.jpg "Deployment Viewpoint")
+![Deployment Viewpoint](images/deployment.jpg "Deployment Viewpoint")
 
 ## Environment
 
@@ -20,4 +20,4 @@ From a deployment perspective, our primary concern is achieving an exceptionally
 
 By meticulously designing and implementing these components, we aim to create symmetrical environments for both production and non-production workloads, ultimately meeting our demanding SLA requirements and ensuring the stability and resilience of our system.
 
-![Environment](deployment_env.jpg "Environment")
+![Environment](images/deployment_env.jpg "Environment")

@@ -7,7 +7,7 @@ Of coarse there are additional flows but all of them are connected to main one i
 
 
 
-<img align="right" width="200" height="200" src="legend.jpg">
+<img align="right" width="200" height="200" src="images/legend.jpg">
 
 
 **Legend for diagrams**
@@ -28,7 +28,7 @@ When a reservation is added to the system, it initiates a tracking process using
 Since users may have multiple reservations, we provide a feature allowing them to group these reservations into a "Trip." These trips can be viewed by the user or shared via social media as public posts or within the app to another user.
 
 
-![Main Flow](main_flow.jpg "Main Flow")
+![Main Flow](images/main_flow.jpg "Main Flow")
 
 ## User Profile Actions
 Our system will not store user/password information; instead, it will rely entirely on one of the leading providers, Google, Apple, or Microsoft, for user authentication. Using one of these providers for authentication will simplify the process of integrating email services.
@@ -47,7 +47,7 @@ When a user creates their profile, we'll automatically create an "unassigned" tr
 Any new reservations they make will automatically be placed under the "unassigned" trip, ensuring the user can access them without any extra steps.
 
 
-![User Profile](user_profile.jpg "User Profile")
+![User Profile](images/user_profile.jpg "User Profile")
 
 ## Email reservations discovery
 
@@ -61,7 +61,7 @@ Within this function, we aim to extract the following Information from emails:
 
 As part of this process, all extracted reservations will be automatically grouped under the "unassigned" Trip, ensuring users can manage their newly discovered reservations effortlessly.
 
-![Email Discovery](email_discovery.jpg "Email Discovery")
+![Email Discovery](images/email_discovery.jpg "Email Discovery")
 
 ## Work with reservations
 
@@ -81,7 +81,7 @@ During reservation creation, our system automatically identifies and links the m
 This functionality will enable us to display a "HELP" button on each reservation, providing users with easy access to the contact details of the associated travel agency.
 
 
-![Reservation Actions](reservation.jpg "Reservation Actions")
+![Reservation Actions](images/reservation.jpg "Reservation Actions")
 
 ## Reservations tracking
 
@@ -94,7 +94,7 @@ This integration will provide users with real-time information and enhance their
 > - We must ensure we are able to extend this in future
 
 
-![Reservation Tracking](reservation_tracking.jpg "Reservation Tracking")
+![Reservation Tracking](images/reservation_tracking.jpg "Reservation Tracking")
 
 ## Work with trips
 
@@ -104,7 +104,7 @@ An important and valuable feature of the app is the ability to organize reservat
 If a user deletes a Trip, the app will seamlessly handle the transition by automatically reassigning all associated reservations to the "unassigned" Trip. Additionally, the app will suggest deactivating these associated reservations, effectively stopping their tracking.
 
 
-![Trip Actions](trip.jpg "Trip Actions")
+![Trip Actions](images/trip.jpg "Trip Actions")
 
 ## Sharing Trips
 
@@ -122,7 +122,7 @@ If the recipient does not have an account, they will be prompted to create one b
 This feature encourages users to bring more people into the app, fostering community and increasing its user base.
 
 
-![Sharing](sharing.jpg "Sharing")
+![Sharing](images/sharing.jpg "Sharing")
 
 ## Work with travel agencies
 
@@ -134,7 +134,7 @@ The inclusion of travel agencies is a crucial feature of the app.
 During reservation creation, our system automatically identifies and links the most suitable travel agency with each reservation. 
 This functionality will enable us to display a "HELP" button on each reservation, providing users with easy access to the contact details of the associated travel agency.
 
-![Travel Agencies](travel_agency.jpg "Travel Agencies")
+![Travel Agencies](images/travel_agency.jpg "Travel Agencies")
 
 ## Analytical reports
 
@@ -144,4 +144,4 @@ Analytical capabilities within the app serve two essential purposes:
 It can become a significant monetization opportunity. 
 To ensure user privacy and data security, we will carefully remove any user or reservation-specific information and provide only aggregated data in these reports. 
 
-![Reports](reports.jpg "Reports")
+![Reports](images/reports.jpg "Reports")

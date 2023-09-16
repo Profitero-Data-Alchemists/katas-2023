@@ -20,13 +20,13 @@ In contemporary software development, there are two primary methods for handling
 We will begin our app with two mono repositories: one for the frontend (covering both web and mobile apps) and another for all the backend microservices. This approach allows us to efficiently manage development in the early stages and maximize code reuse. It's important to note that a well-structured monorepo can always be divided into smaller repositories if needed.
 To ensure flexibility and minimize direct code dependencies, we'll implement a strategy where code sharing occurs through libraries or plugins managed as separate artifacts. This way, we maintain modularity and can quickly adapt to changing requirements in the future.
 
-![Development Viewpoint](development.jpg "Development Viewpoint")
+![Development Viewpoint](images/development.jpg "Development Viewpoint")
 
 ## Code Merge Strategy
 
 Numerous merge strategies exist, each tailored to specific scenarios. The table below offers guidance on when to apply each method.
 
-![Merge Strategies](merge_strategy.jpg "Merge Strategies")
+![Merge Strategies](images/merge_strategy.jpg "Merge Strategies")
 
 Due to constraints on our mobile app release schedule, we've opted to implement **GitLab Flow** for both frontend and backend development. This choice aims to streamline joint releases and simplify our overall workflow.
 
@@ -34,7 +34,7 @@ Due to constraints on our mobile app release schedule, we've opted to implement 
 
 GitLab Flow is centered around a primary branch, usually called main or master, and it involves creating release/hotfix branches or release tags. Here's the key concept: developers work on feature branches, testing their changes locally. Once the code is ready, it's merged into the main branch, triggering automated deployment to a non-production environment for integration, regression, and performance testing. When it's time to release, a release branch/tag is created, automatically initiating the production deployment process.
 
-![GitLab Flow](gitlab_flow.jpg "GitLab Flow")
+![GitLab Flow](images/gitlab_flow.jpg "GitLab Flow")
 
 ## Automation vs Manual
 
