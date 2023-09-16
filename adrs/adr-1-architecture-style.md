@@ -1,4 +1,4 @@
-# ADR 1: Architecture style
+# ADR 1: Use Event-Driven Architecture style
 
 **Date**: 2023-09-15
 

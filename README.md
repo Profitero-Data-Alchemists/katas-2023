@@ -423,8 +423,8 @@ Implementing the startup approach for "The Road Warrior," which emphasizes launc
 
 ## Architecture decision records
 
-- ### [ADR-1](adrs/adr-1-architecture-style.md) Use
-- ### [ADR-2](adrs/adr-) Use
+- ### [ADR-1](adrs/adr-1-architecture-style.md) Use Event-Driven Architecture style
+- ### [ADR-2](adrs/adr-2-api-layer.md) Use API layer as single point of contact for all user interfaces 
 - ### [ADR-3](adrs/adr-3-data-reader.md) Use API based synchronous Data Readers
 - ### [ADR-4](adrs/adr-4-data-updater.md) Use messaging based asynchronous Data Updaters
 - ### [ADR-5](adrs/adr-5-trackers.md) Use messaging based asynchronous Trackers

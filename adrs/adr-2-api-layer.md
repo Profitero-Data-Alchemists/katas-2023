@@ -1,4 +1,4 @@
-# ADR 2: API layer as single point of contact for all user interfaces
+# ADR 2: Use API layer as single point of contact for all user interfaces
 
 **Date**: 2023-09-15
 
