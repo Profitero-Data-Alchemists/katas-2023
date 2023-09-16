@@ -9,7 +9,7 @@ The data model is pivotal in any application, directly impacting performance and
 
 This strategy enhances performance and provides the flexibility needed to accommodate increasing data volumes and user loads.
 
-Here you can find more details about proposed data model:
+#### Here you can find more details about proposed data model:
 <!-- TOC -->
 * [Data Model](#data-model)
     * [User](#user)

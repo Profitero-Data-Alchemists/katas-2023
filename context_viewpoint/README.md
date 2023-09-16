@@ -17,7 +17,7 @@ As we can see the system has many-many integration points:
  * **Notifications** are used to send user notifications such as emails or push notifications for mobile applications.
 
 
-![Level 1 - System Context](images/Level-1-System-Context.svg)
+![Level 1 - System Context](images/level1.jpg)
 
 
 ## Level 2 - Container diagram - Road Warrior
@@ -51,7 +51,7 @@ It achieves this by interacting with external Notification APIs to deliver email
 The final but equally essential function is the ability to generate analytical reports. To accomplish this, we introduce the Reporting Container:
 - **Analytical Reports Generator**: This service extracts data through the Data Reader and generates monthly Vendor reports. These reports can be accessed by Support personnel or annual user reports, providing insights into their travel history for the past year. This feature enables data-driven decision-making and enhances the overall functionality of the system.
 
-![Level 2 - Software System - Road Warrior](images/Level-2-Software-System-Road-Warrior.svg)
+![Level 2 - Software System - Road Warrior](images/level2.jpg)
 
 
 ## Level 3 - Containers
@@ -71,7 +71,7 @@ Emails from the `Unparsed User Emails` are captured by the microservice `Emails 
 1. Stores reservation info in `Reservations Data Reader/Updater` service,
 2. Sends an update to the `Notification Publisher` service.
 
-![Level 3 - Container - Emails Tracker](images/Level-3-Container-Emails-Tracker.svg)
+![Level 3 - Container - Emails Tracker](images/level3_email_tracker.jpg)
 
 ### Level 3 - Container - Reservation Trackers
 
@@ -80,7 +80,7 @@ Implementation of `Reservation trackers` based on the use of the Compacted topic
 2. Sending the Reservation update to the `Notification Publisher` service to notify the user about the change.
 
 
-![Level 3 - Container - Reservation Trackers](images/Level-3-Container-Reservation-Trackers.svg)
+![Level 3 - Container - Reservation Trackers](images/level3_reservation_tracker.jpg)
 
 ### Level 3 - Container - Notification Publisher
 
@@ -93,5 +93,5 @@ There are three possible ways to deliver notification to the user:
 
 The first two are implemented using the 3rd party API for sending mobile-native push notifications and emails. The last one is implemented by sending the notification to the `Notifications Data Reader/Updater` service.
 
-![Level 3 - Container - Notification Publisher](images/Level-3-Container-Notification-Publisher.svg)
+![Level 3 - Container - Notification Publisher](images/level3_notifications.jpg)
 
