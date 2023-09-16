@@ -17,9 +17,20 @@ Of coarse there are additional flows but all of them are connected to main one i
 - **Data Element**: May represent an object or it's attribute
 - **Constraint**: Functional limitation introduced to simplify system
 
-##Table of Contents
+## Table of Contents
 
-
+<!-- TOC -->
+* [Functional Viewpoint](#functional-viewpoint)
+  * [Main Flow](#main-flow)
+  * [Work with User Profile](#work-with-user-profile)
+  * [Email reservations discovery](#email-reservations-discovery)
+  * [Work with reservations](#work-with-reservations)
+  * [Reservations tracking](#reservations-tracking)
+  * [Work with trips](#work-with-trips)
+  * [Sharing Trips](#sharing-trips)
+  * [Work with travel agencies](#work-with-travel-agencies)
+  * [Analytical reports](#analytical-reports)
+<!-- TOC -->
 
 ## Main Flow
 
@@ -30,7 +41,7 @@ Since users may have multiple reservations, we provide a feature allowing them t
 
 ![Main Flow](images/main_flow.jpg "Main Flow")
 
-## User Profile Actions
+## Work with User Profile
 Our system will not store user/password information; instead, it will rely entirely on one of the leading providers, Google, Apple, or Microsoft, for user authentication. Using one of these providers for authentication will simplify the process of integrating email services.
 
 > **Important constraint**:  we recommend that one user account be associated with one email integration. In the future, we may consider allowing multiple email addresses to be associated with a single user profile, but for now, it's one user, one email integration.
