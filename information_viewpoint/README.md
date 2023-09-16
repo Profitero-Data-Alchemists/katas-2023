@@ -8,6 +8,7 @@
 - update depths of headers to correct values
 - cross-link mentioned entities and markdown headers
 - dots in the ends of list entries - pick single style
+- pick a convention on mentioning ID for the links
 
 # Purpose
 
@@ -130,29 +131,33 @@ identifiable and traceable within travel agency reservation management systems.
 
 ## Trip
 
-Trip entity represents a group of reservations for convenience. Also trips
-can be shared with other users, to scope sharing feature data access, 
+The Trip entity represents a collection of reservations, providing a convenient
+grouping. Additionally, trips can be shared with other users, allowing for
+controlled data access in the sharing feature.
 
 ### Decisions
-- Each user has a service "Unassinged" trip ontaining all not-yet-assigned
-  reservations. This trip is used to unify the flow of working with reservations
-- User owning the trip is still tracked via directo reference, for simpler
-  investigation.
+- Each user possesses an "Unassigned" trip service containing all reservations
+  that have not yet been assigned. This approach streamlines the process of
+  working with reservations.
+- The user who owns the trip is still tracked through a direct reference,
+  simplifying core authorization.
 
 ### Fields
-- ID
-- Description - A space for user to specify additional information.
-- Dates - start and end date of the trip. Is used for convenience purposes and
-  easier automatic grouping of reservations.
-- Is Unassinged - Special flag to mark the unassigned reservation. Exactly one
-  unassigned trip per user should exist.
+- ID: Unique identifier for the trip.
+- Description: Provides a space for users to include additional information
+  about the trip.
+- Dates: Indicates the start and end dates of the trip. This information is used
+  for convenience and facilitates automatic grouping of reservations.
+- Is Unassigned: A special flag to mark reservations that have not been
+  assigned. Each user should have exactly one unassigned trip.
 
 ### Outbound Links
-- Owner - User creator and owner of the trip. Used for authorization.
+- Owner: Identifies the user who created and owns the trip. This information is
+  used for authorization purposes.
 
 ### Inbound Links
-- Users (Through "Trip Access Control List" join table) - list of users and
-  corresponding roles they have been granted for the trip.
+- Users (via the "Trip Access Control List" join table): Contains a list of
+  users and their corresponding roles granted for the trip.
 
 
 ## Trip Access Control
