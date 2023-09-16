@@ -8,9 +8,25 @@
 - [Dmitry Trofimov](https://www.linkedin.com/in/tdslinkedin/)
 - [Oleg Zubchenko](https://www.linkedin.com/in/rgbd-me/)
 
-## Contents
+## Table of Contents
 
-TODO
+<!-- TOC -->
+* [Welcome](#welcome)
+* [Business Case](#business-case)
+* [Requirements](#requirements)
+* [Proposed Architecture](#proposed-architecture)
+  * [Architecture Style](#architecture-style)
+  * [Functional Viewpoint](#functional-viewpoint)
+  * [Context Viewpoint](#context-viewpoint)
+  * [Operational Viewpoint](#operational-viewpoint)
+  * [Informational Viewpoint](#informational-viewpoint)
+  * [Concurrency Viewpoint](#concurrency-viewpoint)
+  * [Development Viewpoint](#development-viewpoint)
+  * [Deployment Viewpoint](#deployment-viewpoint)
+  * [Security Perspective](#security-perspective)
+  * [Architecture decision records](#architecture-decision-records)
+* [Implementation milestones](#implementation-milestones)
+<!-- TOC -->
 
 ## Welcome
 
@@ -146,11 +162,11 @@ In alignment with the top three key characteristics, the team selected an **even
 
 #### Implicit Architecture Characteristics
 
-| Characteristic | Description                                                                                                                                                                                                                              |
-|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Availability     | Users must be able to access the system at all times, with a maximum of 5 minutes per month of unplanned downtime. <br/> - High availability is crucial to ensure that travelers can access their trip information whenever they need it. |
-| Security      | Filtering and whitelisting certain emails are security measures to prevent unwanted or malicious emails.<br/> - Ensuring the security of user data and interactions is essential, especially in the context of travel-related information. |
-| Maintainability | Maintainability is critical for managing and analyzing data over time, adapting to changing requirements. Especially for just launched product on the market                                                                             | 
+| Characteristic | Description                                                                                                                                                                                                                             |
+|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Availability     | Users must be able to access the system at all times, with a maximum of 5 minutes per month of unplanned downtime. <br/> High availability is crucial to ensure that travelers can access their trip information whenever they need it. |
+| Security      | Filtering and whitelisting certain emails are security measures to prevent unwanted or malicious emails.<br/> Ensuring the security of user data and interactions is essential, especially in the context of travel-related information. |
+| Maintainability | Maintainability is critical for managing and analyzing data over time, adapting to changing requirements. Especially for just launched product on the market                                                                            | 
 
 ## Functional Viewpoint
 
@@ -263,6 +279,52 @@ The final but equally essential function is the ability to generate analytical r
 - #### Notifications Data Reader/Updater
 - #### Trips Data Reader/Updater
 
+
+## Operational Viewpoint
+
+> *Describes how the system will be operated when it is running on production environment.*
+
+Here we connect the main user flow with the system context. The base things a user do in the application are:
+- **[Login](operational_viewpoint/README.md#login)**. The app needs to know who going to get help with his trips.
+- **[Setup application](operational_viewpoint/README.md#application-setup)**. The user has to register a profile in the app to create a context and establish rules.
+- **[Setup a trip](operational_viewpoint/README.md#setup-a-trip)**. The travel is being planned, thus the user shares with the application what to track by adding reservations into the system.
+- **[Share a trip](operational_viewpoint/README.md#share-a-trip)**. It is always useful to be able to share your experience easily.
+
+Then the Road Warrior application steps into play. The application can collect reservations automatically, tracking updates and allows making changes. The system will inform the traveler and let him keep friends up to date.
+ To do the staff, the system involves:
+
+The client side:
+- The user, firstly.
+- The web/mobile application.
+
+The Road Warrior system:
+- All services we put on servers.  
+
+A number of Third party we need to provide our features:
+- **Identity providers for authentication**. So a user can use usual identity for simple login.
+- **Reservation sources**. Travel agencies and travel systems where we can collect actual information and same time and efforts for the user.
+- **Notifications services**, to keep the user informed regardless of the device he is using.
+- **Social media aggregator**. The service connecting us to social networks.
+
+The next schema shows how all it works together to satisfy  our users:
+
+
+![Base Operational](operational_viewpoint/images/L1_Operational_RoadWarrior.jpg "Base operations diagram")
+
+
+## Informational Viewpoint
+
+> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
+
+The data model is pivotal in any application, directly impacting performance and scalability. To meet these requirements effectively, we recommend adopting a NoSQL approach for data storage. Our proposal involves maintaining object-oriented tables to eliminate the need for complex joins. This approach offers several advantages:
+- Exceptional Performance: By avoiding joins, we ensure outstanding performance for both read and write operations.
+- Horizontal Scalability: We can quickly scale our database horizontally by partitioning data across multiple nodes, supporting our scalability needs as the application grows.
+
+
+This strategy enhances performance and provides the flexibility needed to accommodate increasing data volumes and user loads.
+
+### [Data Model Details](information_viewpoint/README.md#here-you-can-find-more-details-about-proposed-data-model)
+
 ## Concurrency Viewpoint
 
 > *Describes the concurrency structure of the system and maps functional elements to concurrency units to clearly identify the parts of the system that can execute concurrently and how this is coordinated and controlled.*
@@ -355,50 +417,6 @@ From a deployment perspective, our primary concern is achieving an exceptionally
 By meticulously designing and implementing these components, we aim to create symmetrical environments for both production and non-production workloads, ultimately meeting our demanding SLA requirements and ensuring the stability and resilience of our system.
 
 ![Environment](deployment_viewpoint/images/deployment_env.jpg "Environment")
-
-## Informational Viewpoint
-
-> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
-
-The data model is pivotal in any application, directly impacting performance and scalability. To meet these requirements effectively, we recommend adopting a NoSQL approach for data storage. Our proposal involves maintaining object-oriented tables to eliminate the need for complex joins. This approach offers several advantages:
-- Exceptional Performance: By avoiding joins, we ensure outstanding performance for both read and write operations.
-- Horizontal Scalability: We can quickly scale our database horizontally by partitioning data across multiple nodes, supporting our scalability needs as the application grows.
-
-
-This strategy enhances performance and provides the flexibility needed to accommodate increasing data volumes and user loads.
-
-[Here you can find more details about proposed data model](information_viewpoint/README.md#here-you-can-find-more-details-about-proposed-data-model)
-
-## Operational Viewpoint
-
-> *Describes how the system will be operated when it is running on production environment.*
-
-Here we connect the main user flow with the system context. The base things a user do in the application are:
-- **[Login](operational_viewpoint/README.md#login)**. The app needs to know who going to get help with his trips.
-- **[Setup application](operational_viewpoint/README.md#application-setup)**. The user has to register a profile in the app to create a context and establish rules.
-- **[Setup a trip](operational_viewpoint/README.md#setup-a-trip)**. The travel is being planned, thus the user shares with the application what to track by adding reservations into the system.
-- **[Share a trip](operational_viewpoint/README.md#share-a-trip)**. It is always useful to be able to share your experience easily.
-
-Then the Road Warrior application steps into play. The application can collect reservations automatically, tracking updates and allows making changes. The system will inform the traveler and let him keep friends up to date.
- To do the staff, the system involves:
-
-The client side:
-- The user, firstly.
-- The web/mobile application.
-
-The Road Warrior system:
-- All services we put on servers.  
-
-A number of Third party we need to provide our features:
-- **Identity providers for authentication**. So a user can use usual identity for simple login.
-- **Reservation sources**. Travel agencies and travel systems where we can collect actual information and same time and efforts for the user.
-- **Notifications services**, to keep the user informed regardless of the device he is using.
-- **Social media aggregator**. The service connecting us to social networks.
-
-The next schema shows how all it works together to satisfy  our users:
-
-
-![Base Operational](operational_viewpoint/images/L1_Operational_RoadWarrior.jpg "Base operations diagram")
 
 ## Security Perspective
 
