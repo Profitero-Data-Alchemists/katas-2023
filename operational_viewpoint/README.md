@@ -29,7 +29,7 @@ The next schema shows how all it works together to satisfy  our users:
 ![Base Operational](images/L1_Operational_RoadWarrior.jpg "Base operations diogram")
 
 
-## Login and Setup application
+## Login
 All users start from this place. We must maintain simplicity along with security. Users use many services every day, and they already have accounts. Simplicity here is the ability to share their identity between many services with clear and unified flow. Security from other side is a critical concern for the client. We have to guarantee protection of personal data and prevent any ways to steal the identity. To do so, we use well-known Identity Providers, like Google, Apple, Microsoft, to store and confirm the identity for our service.
 The login process looks clear and secure – the user opens the Road Warrior application, then a well-known provider confirms the user’s identity and we can start. Moreover, using Single Sign On approach, we remove the necessity to enter credentials every time but let him stay in a secure environment and trust our service.
 
