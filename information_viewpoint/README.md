@@ -21,13 +21,25 @@ decisions taken.
 
 Functionally, the application provides several feature groups, including:
 
-- User Management
+- Reservation Data Presentation
 - Reservation Tracking
-- Access Control
-- Report Generation
-- User Notification
+- Trip Sharing
+- Analytics
+- Support
 
-Data Schema mirrors that separation
+| Entity\Feature           | Data Presentation | Reservaton Tracking | Trip Sharing | Analytics | Support |
+|--------------------------|-------------------|---------------------|--------------|-----------|---------|
+| User                     | YES               | YES                 |              | YES       | YES     |
+| Reservation              |                   | YES                 |              | YES       | YES     |
+| Reservation Itinerary    |                   | YES                 |              | YES       | YES     |
+| Trip                     |                   |                     | YES          |           |         |
+| Trip Access Control List |                   |                     | YES          |           |         |
+| Travel Agency            | YES               | YES                 |              | YES       | YES     |
+| Notification             | YES               |                     |              |           | YES     |
+| User Report              | YES               |                     |              | YES       |         |
+| Vendor Report            |                   |                     |              | YES       |         |
+
+Data Schema mirrors that separation.
 
 TODO: add feature/entity matrix maybe?
 
