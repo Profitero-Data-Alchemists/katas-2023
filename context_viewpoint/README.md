@@ -119,3 +119,11 @@ There are two supported types of reports in the system:
 Generation of reports of each type implemented by separate microservices: `Vendor Report Generator` and `User Report Generator` respectively. Both microservices read all necessary data from `Data Readers` services and send generated reports to the requester through `Gateway API`.
 
 ![Level 3 - Container - Analytical Reports Generator](images/Level-3-Container-Analytical-Reports-Generator.jpg)
+
+### Level 3 - Container - User Data Reader/Updater
+
+Data flow in the container is split into two parts:
+1. **Data update** flow starts with the `User Data Updates` topic, which receives updates from `Gateway API`. Updates are processed by the `User Data Updater` microservice and stored in the `User` table.
+2. **Data read** flow takes the data from the `User` table and shares it with other parties via the `User Data Reader` microservice. User data is being read by `Gateway API` for presenting in the applications, by `Notification Publisher` for filtering notifications according to the user's notification settings, and by `Trackers`` for user emails.
+
+![Level 3 - Container - User Data Reader/Updater](images/Level-3-Container-User-Data-Reader-Updater.jpg)
