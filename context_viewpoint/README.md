@@ -1,52 +1,64 @@
 # Context viewpoint
-Context viewpoint is intended to describe the relationships, dependencies, and interactions between the system and its environment (people, systems, and external entries with which it interacts).
 
-Using the C4 model system decomposition is explained step by step. The most high-level explanation of the system presented on the schema: ``Level 1 - System Context``
+> *Describes the relationships, dependencies, and interactions between the system and its environment (the people, systems, and external entities with which it interacts).*
 
 ## Level 1 - System Context
 
-![Level 1 - System Context](/context_viewpoint/images/Level-1-System-Context.svg)
+> *A System Context Diagram is a high-level visual representation that depicts a system or software application in its broader context. It illustrates how the system interacts with external entities, such as users, other systems, or data sources.*
 
-In the middle of the schema here - is the software system for a new startup called "Road Warrior". This diagram shows the parties the system iterates with. Here they are:
+As we can see the system has many-many integration points:
+ * **User** that interacts with the system through the web application in the browser or through the mobile application.
+ * **Support user** that does special actions in application such as maintaining available Travel Agencies or generating a vendor analytical report.
+ * **Identity API** is used to verify the identity of the user who logs into the application. It also provides basic info about the user, that the user agreed to provide during the registration.
+ * **User Email API** provides the ability to discover new reservations by user email polling (if allowed by the user).
+ * **Travel Agencies API** provides updates for reservations that were added by users or discovered in user email. E.g. Hotel, Airline or Car rental API.
+ * **Travel Systems API** also provides updates and details for reservations. E.g. SABRE, APOLLO
+ * **Social Media** provides APIs to share the post in user's social media accounts.
+ * **Notifications** are used to send user notifications such as emails or push notifications for mobile applications.
 
-On the left side:
- * ``User`` that interacts with the system through the web application in the browser or through the mobile application.
- * ``Support user`` that does special actions in application such as maintaining available Travel Agencies or generating a vendor analytical report.
 
-On top:
-* ``Identity API`` is used to verify the identity of the user who logs into the application. It also provides basic info about the user, that the user agreed to provide during the registration.
-* ``User Email API`` provides the ability to discover new reservations by user email polling (if allowed by the user).
+![Level 1 - System Context](/images/Level-1-System-Context.svg)
 
-On the right side:
-* ``Travel Agencies API`` provides updates for reservations that were added by users or discovered in user email.
-* ``Travel Systems API`` also provides updates and details for reservations.
 
-On bottom:
-* ``Social Media`` provides APIs to share the post in user's social media accounts.
-* ``Notifications`` are used to send user notifications such as emails or push notifications for mobile applications.
+## Level 2 - Container diagram - Road Warrior
 
-## Level 2 - Software System - Road Warrior
-The topmost parts of the "Road Warrior" software system are presented on ``Level 2``. This level expands the internals of the software system presented in the previous schema without going too much into detail for now.
+> *The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate with one another*
 
-![Level 2 - Software System - Road Warrior](/context_viewpoint/images/Level-2-Software-System-Road-Warrior.svg)
+In the first phase we want to enable users interaction with the system in general. To make this possible, we have introduced the following components:
+- **Road Warrior UI**: This is a web application, and all static content is hosted on a global Content Delivery Network (CDN).
+- **Gateway API**: This component operates as a REST API, serving as a centralized entry point for all external incoming requests. Its responsibilities include user authentication and the orchestration of business logic across microservices. 
+- To verify user identity **Gateway API** interacts with **Identity API**.
 
-Once the system environment stays the same focus of this schema is on Software System internals. Component ``Road Warrior UI`` represents a web application, that hosts the frontend part of the web application and all its static content. Common for the web application and mobile applications backend available as REST API component ``Gateway API``. It hosts all backend requests, including ones for login and register functions. To verify user identity ``Gateway API`` refers to the ``Identity API``.
+The next phase involves enabling users to interact with reservations, trips, user profiles, and more. To achieve this, we're introducing the Data Readers/Updaters Container:
+- **Data Readers**: These components provide data to the Gateway API and other microservices within the system. 
+They will implement search and filtering capabilities and the ability to retrieve full objects by their unique IDs.
+- **Data Updaters**: These components are responsible for applying changes to objects in the database and ensuring their consistency and integrity are maintained.
 
-Reservations can be added manually by the user via one of the Road Warrior applications or discovered automatically by the email poller. Once the reservation is registered in the system, it will be updated by one of the trackers combined into container ``Trackers``. Every tracker polls the updates for the reservation from the ``Travel Systems API`` or ``Travel Agencies API``.
+Now, as we've enabled manual operations with objects, it's time to automate the tracking and discovery of reservations. 
+To achieve this, we've introduced the Trackers Container:
+- **Emails Tracker**: This service is responsible for scanning users' email inboxes, searching for reservations, and extracting all the necessary information from them. 
+Its primary role is to discover new reservations. 
+It interacts with email via API, respecting user settings and permissions.
+- **Reservation Trackers**: These services are responsible for ensuring that we have the latest reservation itineraries. 
+They maintain their internal state of active reservations to track changes. 
+- Any identified changes are then passed on to the **Data Updaters** for persistence in the database.
 
-Once there is a change in the reservation, the system initiates notification of the user about the change using supported ways that are described in the container ``Notificaton Publisher``. It prepares the notification according to the user notification settings and sends a notification to the user using external ``Notifications`` APIs.
+In conclusion, we must address how the system communicates with the external world. To facilitate this, we're introducing the Sharing and Notification Containers:
+- **Sharing**: This component empowers users to share their Trips and Reservations with others within the app or create posts for sharing on their preferred social media platforms. To ensure a seamless user experience, it will interact with Social Media Aggregators, which will be specified later.
+- **Notification Publisher**: This component takes on the responsibility of informing users about significant changes to their reservations and notifying them when someone shares content with them within the app. 
+It achieves this by interacting with external Notification APIs to deliver emails and push notifications to mobile apps.
 
-Every Trip that a user owns in his account can be shared with other users by posting a message on social media or by sharing the Trip with targeted people. Both of these sharing mechanisms are implemented in container ``Sharing``.
+The final but equally essential function is the ability to generate analytical reports. To accomplish this, we introduce the Reporting Container:
+- **Analytical Reports Generator**: This service extracts data through the Data Reader and generates monthly Vendor reports. These reports can be accessed by Support personnel or annual user reports, providing insights into their travel history for the past year. This feature enables data-driven decision-making and enhances the overall functionality of the system.
 
-All information about User data, Trips, Reservations, Travel Agencies and Notifications is stored and shared with readers by container `Data Readers/Updaters`.
+![Level 2 - Software System - Road Warrior](/images/Level-2-Software-System-Road-Warrior.svg)
+
 
 ## Level 3 - Containers
 
-Information presented on the third level of context viewpoint drilled down to the internals of the containers from the previous level.
+> *The Component diagram shows how a container is made up of a number of "components", what each of those components are, their responsibilities and the technology/implementation details.*
 
 ### Level 3 - Container - Emails Tracker
-
-![Level 3 - Container - Emails Tracker](/context_viewpoint/images/Level-3-Container-Emails-Tracker.svg)
 
 Implementation of Email tracker based on the use of the Compacted topics. Emails that are used to track new reservations are registered by microservice `Email Tracking List Editor` into compacted topic `Email Addresses`. Each email from the topic is processed by the `Emails Tracker` microservice, which includes:
 1. polling new emails compared to a previous state (if any),
@@ -59,17 +71,18 @@ Emails from the `Unparsed User Emails` are captured by the microservice `Emails 
 1. Stores reservation info in `Reservations Data Reader/Updater` service,
 2. Sends an update to the `Notification Publisher` service.
 
-### Level 3 - Container - Reservation Trackers
+![Level 3 - Container - Emails Tracker](images/Level-3-Container-Emails-Tracker.svg)
 
-![Level 3 - Container - Reservation Trackers](/context_viewpoint/images/Level-3-Container-Reservation-Trackers.svg)
+### Level 3 - Container - Reservation Trackers
 
 Implementation of `Reservation trackers` based on the use of the Compacted topics. The reservations that should be tracked are picked by the `Reservation Tracker` microservice and sent to one of the Compacted topics depending on the reservation type. Each type of the topic being processed by Tracker for a specific reservation type and sent to the external Travel System or Travel Agency API for reservation updates. Any existing update stored back to the corresponding Reservations compacted topic and being processed by the `Reservation Updater` microservice. It updates the reservation information in the system by:
 1. Sending the Reservation update to the `Reservation Data Reader/Updater` service,
 2. Sending the Reservation update to the `Notification Publisher` service to notify the user about the change.
 
-### Level 3 - Container - Notification Publisher
 
-![Level 3 - Container - Notification Publisher](/context_viewpoint/images/Level-3-Container-Notification-Publisher.svg)
+![Level 3 - Container - Reservation Trackers](images/Level-3-Container-Reservation-Trackers.svg)
+
+### Level 3 - Container - Notification Publisher
 
 All notifications from different originators are sent into the topic `Incoming Notifications`. They are picked by the `Notifications Registrator` and filtered according to the Notification settings for each user. In case the user disabled one of the notification types in the settings - the corresponding notification will be filtered out by the `Notifications Registrator` and not sent to the next step. All notifications after filtering are sent to the `Notifications To Send` topic. Notifications from that topic are being processed by the `Notifications Sender` microservice.
 
@@ -79,3 +92,6 @@ There are three possible ways to deliver notification to the user:
 3. Notifications widget in the web or mobile application
 
 The first two are implemented using the 3rd party API for sending mobile-native push notifications and emails. The last one is implemented by sending the notification to the `Notifications Data Reader/Updater` service.
+
+![Level 3 - Container - Notification Publisher](images/Level-3-Container-Notification-Publisher.svg)
+
