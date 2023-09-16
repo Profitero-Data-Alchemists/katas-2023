@@ -110,3 +110,12 @@ The second scenario is being processed by the `Social Media Post Generator` micr
 
 ![Level 3 - Container - Sharing](images/Level-3-Container-Sharing.jpg)
 
+### Level 3 - Container - Analytical Reports Generator
+
+There are two supported types of reports in the system:
+1. Vendor reports with aggregated analytical information about users' travel behavior.
+2. User annual reports with travel statistics.
+
+Generation of reports of each type implemented by separate microservices: `Vendor Report Generator` and `User Report Generator` respectively. Both microservices read all necessary data from `Data Readers` services and send generated reports to the requester through `Gateway API`.
+
+![Level 3 - Container - Analytical Reports Generator](images/Level-3-Container-Analytical-Reports-Generator.jpg)
