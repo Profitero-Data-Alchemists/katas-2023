@@ -27,10 +27,7 @@ Functionally, the application provides several feature groups, including:
 
 Data Schema mirrors that separation
 
-# Glossary
-
-TODO: pulling vs discovering
-TODO: reminder: analyse with "why"
+TODO: add feature/entity matrix maybe?
 
 
 
@@ -39,42 +36,49 @@ TODO: reminder: analyse with "why"
 
 ## User
 
-User entity represents end user of the app and contains all the information that
-is related to specific user.
+The User entity represents the end user of the app and encompasses all
+information specific to a user.
 
 ### Decisions
-- The data is stored in one table with dynamic schema fields with multiple
-  records are present in the table. This approach provides better performance,
-  easier extensibility, and is viable since the data in question is not being
-  modified in any busines-critical transactions.
+- All data is consolidated within a single table, featuring dynamic schema
+  fields and accommodating multiple records. This approach optimizes
+  performance, facilitates extensibility, and is applicable given that the data
+  in question remains unaltered in critical business transactions.
 
 ### Fields:
+- ID: This serves as a surrogate primary key, prioritizing performance and
+  simplifying GDPR compliance procedures.
+- E-mail: The user's email, utilized for authentication as well as reservation
+  discovery and tracking purposes.
 
-- ID - surrogate primary key for performance and easier GDPR compliance.
-- E-mail - user's email. Used for authentication and reservation updates
-  discovery and tracking.
-- E-mail filtering rules - configuration limiting scope of scraped emails. Used
-  for improved privacy and performance.
-- Personal Info - User-related personal data
-  - Name - for polite user addressing
-  - Location - home address of the user, for emergency issue resolution
-  - Language - preferred UI language
-  - Contact Info - for emergency cases and quick issue resolution
-- Notification settings - preferences regarding frequency, importance and
-  delivery method for app notifications for convenience.
+- E-mail Filtering Rules: These configurations define the scope of scraped
+  emails, enhancing privacy and performance.
+
+- Personal Info: This section encompasses user-specific personal data.
+  - Name: Facilitates polite user addressing.
+  - Location: Records the user's home address, essential for addressing
+    emergency issues, also used for scoping vendor analytical reports.
+  - Language: Indicates the preferred UI language.
+  - Contact Info: Crucial for emergency cases and prompt issue resolution.
+- Notification Settings: This field encompasses preferences regarding
+  notification frequency, importance, and delivery method, enhancing user
+  convenience.
 
 ### Outbound Links
-- Preferred Agency ID - travel agency that should be used. Used For quick issue
-  resolution
+- Preferred Agency: Identifies the travel agency designated for quick issue
+  resolution.
 
 ### Inbound Links
-- Shared Trips (Through "Trip Access Control List" join table) - trips shared with
-  with the user by other users. Used for authorization and access control.
-- Owned Trips (directly by Owner ID) - trips created and owned by the user
-- Reservations - reservations created and owned by the user. Used for
-  authorization.
-- Notifications - for tracking read receipts.
-- User Reports - reports intended for the user. For recipient tracking
+- Shared Trips (via the "Trip Access Control List" join table): These are trips
+  shared with the user by other users, primarily utilized for authorization and
+  access control.
+- Owned Trips (directly linked by `Trip`'s Owner ID): Refers to trips created
+  and owned by the user.
+- Reservations: Records of reservations created and owned by the user, primarily
+  for authorization purposes.
+- Notifications: Essential for tracking read receipts.
+- User Reports: These reports are specifically intended for the user, enabling
+  recipient tracking.
 
 
 ## Reservation
