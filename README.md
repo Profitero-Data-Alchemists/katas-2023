@@ -48,7 +48,7 @@ To develop an innovative online trip management dashboard that offers travelers 
 
 ## Requirements
 
-For the original requirenments please follow [Original Requirements](requirements/original_requirements.md)
+For the original requirements please follow [Original Requirements](requirements/original_requirements.md)
 
 ### Stakeholders
 
@@ -156,8 +156,7 @@ In alignment with the top three key characteristics, the team selected an **even
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Availability     | Users must be able to access the system at all times, with a maximum of 5 minutes per month of unplanned downtime. <br/> - High availability is crucial to ensure that travelers can access their trip information whenever they need it. |
 | Security      | Filtering and whitelisting certain emails are security measures to prevent unwanted or malicious emails.<br/> - Ensuring the security of user data and interactions is essential, especially in the context of travel-related information. |
-| Maintainability | Maintainability is critical for managing and analyzing data over time, adapting to changing requirements. Especially for just launched product on the market                                                                             |
-| 
+| Maintainability | Maintainability is critical for managing and analyzing data over time, adapting to changing requirements. Especially for just launched product on the market                                                                             | 
 
 ### Functional Viewpoint
 
