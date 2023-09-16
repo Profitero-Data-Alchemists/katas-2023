@@ -398,13 +398,44 @@ A number of Third party we need to provide our features:
 The next schema shows how all it works together to satisfy  our users:
 
 
-![Base Operational](operational_viewpoint/images/L1_Operational_RoadWarrior.jpg "Base operations diogram")
+![Base Operational](operational_viewpoint/images/L1_Operational_RoadWarrior.jpg "Base operations diagram")
 
+## Implementation milestones
+Implementing the startup approach for "The Road Warrior," which emphasizes launching a Minimum Viable Product (MVP) quickly, gathering user feedback, and continuously integrating external APIs and data providers, requires a different set of implementation milestones.
 
+| Iteration | Goal | Tasks                                                                                                                                                                                                                                                                                                                                                               |
+|-----------|--|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Start**     | Project initiation and planning | - Define project objectives and scope.<br/>- Assemble Scrum teams.<br/>- Create a high-level project plan.<br/> - Set up communication and collaboration tools.<br/>- Conduct initial backlog refinement. |
+| **MVP Development**     |  Develop the MVP for web and initiate mobile app development (Android or iOS) | - Define MVP features, prioritizing essential functionalities. <br/> - Set up development environments for web and mobile. <br/>- Develop core features, including email polling, basic reservation management, and basic UI. <br/>- Implement basic authentication for web and mobile with limited list of providers. <br/>- Plan for rapid deployment of the MVP. |
+| **MVP Deployment and Beta Testing** | Deploy the MVP to a limited user base for beta testing. | - Conduct internal testing to ensure stability.<br/>- Create a beta user group and recruit participants.<br/>- Deploy the MVP to beta users on web and mobile.<br/>- Gather user feedback through surveys, in-app feedback forms, and user interviews.  |
+| **MVP Feedback Integration** | Integrate user feedback and make improvements to the MVP. | - Analyze user feedback and prioritize enhancements.<br/>- Iterate on UI/UX improvements based on beta user input.<br/>- Address critical issues and bugs identified during beta testing.<br/>- Deploy updated versions of the MVP to beta users. |
+| **Initial API Integration** | Begin integrating external APIs and data providers. | - Identify and prioritize external APIs and data sources for integration (e.g., travel data providers, social media APIs).<br/>- Develop API integration modules.<br/>- Conduct initial testing of integrated data sources.<br/>- Ensure that MVP features benefit from external data sources. |
+| **Version 1.0 Release** |  Release an improved version of the MVP with additional features. | - Implement features based on user feedback (e.g., improved reservation management, social media sharing).<br/>- Enhance UI/UX based on beta user input.<br/>- Perform additional testing to ensure stability.<br/>- Launch Version 1.0 for both web and mobile. |
+| **Continuous Feedback and Iteration** | Continuously gather feedback and iterate on the product. | - Maintain a feedback loop with beta users.<br/>- Prioritize and implement features and enhancements based on user needs.<br/>- Address bugs and issues promptly.<br/>- Deploy regular updates to improve the user experience. |
+| **API Expansion and Data Providers** | Consistently connect new external APIs and data providers. | - Identify and evaluate new API and data source opportunities.<br/>- Develop and test API integrations.<br/>- Ensure seamless data synchronization and accuracy.<br/>- Continuously expand the range of travel-related data available to users.  |
+| **Adding the Second Mobile App Platform** | Initiate development for the second mobile app platform (Android or iOS, whichever was not chosen initially). | - Set up the development environment for the second mobile app platform.<br/>- Adapt existing MVP features and improvements to the second platform.<br/>- Implement authentication and ensure feature parity with the first platform. |
+| **MVP Deployment for Second Platform** | Deploy the MVP to a limited user base for beta testing on the second mobile app platform. | - Conduct internal testing to ensure stability for the second platform.<br/>- Create a beta user group and recruit participants for the second platform.<br/>- Deploy the MVP to beta users on the second platform.<br/>- Gather user feedback through surveys, in-app feedback forms, and user interviews for the second platform. |
+| **Version 2.0 Release** | Launch a feature-rich Version 2.0 of the product. | - Implement advanced features (e.g., travel trends analytics, advanced reporting).<br/>- Enhance UI/UX based on user feedback and industry trends.<br/>- Perform extensive testing, including performance and security.<br/>- Plan a marketing campaign for the Version 2.0 launch. |
+| **Scaling and User Growth** | Scale infrastructure and expand the user base. | - Monitor system performance and scalability.<br/>- Optimize server and database resources.<br/>- Implement marketing strategies to acquire new users.<br/>- Address scaling challenges as user numbers grow. |
+| **Continuous Improvement** | Continuously improve the product and user experience. | - Gather feedback from a growing user base.<br/>- Stay updated with industry trends and new API opportunities.<br/>- Implement regular updates and improvements.<br/>- Plan for long-term product evolvability. |
 
-
-
-## Costs?
 
 
 ## Architecture decision records
+
+- ### [ADR-1](adrs/adr-1-architecture-style.md) Use Event-Driven Architecture style
+- ### [ADR-2](adrs/adr-2-api-layer.md) Use API layer as single point of contact for all user interfaces 
+- ### [ADR-3](adrs/adr-3-data-reader.md) Use API based synchronous Data Readers
+- ### [ADR-4](adrs/adr-4-data-updater.md) Use messaging based asynchronous Data Updaters
+- ### [ADR-5](adrs/adr-5-trackers.md) Use messaging based asynchronous Trackers
+- ### [ADR-6](adrs/adr-6-sharing.md) Use API based synchronous Sharing service
+- ### [ADR-7](adrs/adr-7-publishers.md) Use messaging based asynchronous Publishers
+- ### [ADR-8](adrs/adr-8-scaling-groups.md) Use separate Scaling Groups for different workloads
+- ### [ADR-9](adrs/adr-9-topics.md) Use topics and compacted topics for message handling
+- ### [ADR-10](adrs/adr-10-partitioning-key.md) Use same Partitioning Key for corresponding topics and tables
+- ### [ADR-11](adrs/adr-11-monorepos.md) Use separate Monorepo for Frontend and Backend
+- ### [ADR-12](adrs/adr-12-gitlab-flow.md) Use GitLab Flow Merge strategy
+- ### [ADR-13](adrs/adr-13-infrastructure.md) Use Multi Zone Infrastructure
+- ### [ADR-14](adrs/adr-14-no-sql-database.md) Use self-managed NoSQL Database with object-oriented model
+- ### [ADR-15](adrs/adr-15-message-broker.md) Use self-managed Message Broker
+ 
