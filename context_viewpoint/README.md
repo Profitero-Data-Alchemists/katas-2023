@@ -9,7 +9,7 @@
 As we can see the system has many-many integration points:
  * **User** that interacts with the system through the web application in the browser or through the mobile application.
  * **Support user** that does special actions in application such as maintaining available Travel Agencies or generating a vendor analytical report.
- * **Identity API** is used to verify the identity of the user who logs into the application. It also provides basic info about the user, that the user agreed to provide during the registration.
+ * **Identity API** is used to verify the identity of the user who logs into the application. It also provides basic info about the user, that they agreed to provide during the registration.
  * **User Email API** provides the ability to discover new reservations by user email polling (if allowed by the user).
  * **Travel Agencies API** provides updates for reservations that were added by users or discovered in user email. E.g. Hotel, Airline or Car rental API.
  * **Travel Systems API** also provides updates and details for reservations. E.g. SABRE, APOLLO
@@ -25,7 +25,7 @@ As we can see the system has many-many integration points:
 > *The Container diagram shows the high-level shape of the software architecture and how responsibilities are distributed across it. It also shows the major technology choices and how the containers communicate with one another*
 
 In the first phase we want to enable users interaction with the system in general. To make this possible, we have introduced the following components:
-- **Road Warrior UI**: This is a web application, and all static content is hosted on a global Content Delivery Network (CDN).
+- **Road Warrior UI**: This is a web application, with all static content hosted on a global Content Delivery Network (CDN).
 - **Gateway API**: This component operates as a REST API, serving as a centralized entry point for all external incoming requests. Its responsibilities include user authentication and the orchestration of business logic across microservices. 
 - To verify user identity **Gateway API** interacts with **Identity API**.
 
