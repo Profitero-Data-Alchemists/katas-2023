@@ -58,3 +58,11 @@ That way on each new iteration the `Emails Tracker` microservice will be able to
 Emails from the `Unparsed User Emails` are captured by the microservice `Emails Parser` which parses the content of the user emails to discover new reservations. Found new reservations stored in the `Email Reservations` topic. The microservice `Reservations Updater` processes reservations from the topic:
 1. Stores reservation info in `Reservations Data Reader/Updater` service,
 2. Sends an update to the `Notification Publisher` service.
+
+### Level 3 - Container - Reservation Trackers
+
+![Level 3 - Container - Reservation Trackers](/context_viewpoint/images/Level-3-Container-Reservation-Trackers.svg)
+
+Implementation of `Reservation trackers` based on the use of the Compacted topics. The reservations that should be tracked are picked by the `Reservation Tracker` microservice and sent to one of the Compacted topics depending on the reservation type. Each type of the topic being processed by Tracker for a specific reservation type and sent to the external Travel System or Travel Agency API for reservation updates. Any existing update stored back to the corresponding Reservations compacted topic and being processed by the `Reservation Updater` microservice. It updates the reservation information in the system by:
+1. Sending the Reservation update to the `Reservation Data Reader/Updater` service,
+2. Sending the Reservation update to the `Notification Publisher` service to notify the user about the change.
