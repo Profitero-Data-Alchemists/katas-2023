@@ -2,13 +2,8 @@
 
 # TODO
 
-- refactor user-reservation relationship. the owner relation is NOT done through
-  the access control table, since it's a special case.
 - Update image when doc is approved
-- update depths of headers to correct values
 - cross-link mentioned entities and markdown headers
-- dots in the ends of list entries - pick single style
-- pick a convention on mentioning ID for the links
 
 # Purpose
 
@@ -40,8 +35,6 @@ Functionally, the application provides several feature groups, including:
 | Vendor Report            |                   |                     |              | YES       |         |
 
 Data Schema mirrors that separation.
-
-TODO: add feature/entity matrix maybe?
 
 
 
@@ -312,6 +305,10 @@ Stats:
   - Cancellation Rate
 
 # Changelog
+
+## Revision 5
+
+Add responsibility matrix.
 
 ## Revision 4
 
