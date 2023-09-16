@@ -17,7 +17,7 @@ As we can see the system has many-many integration points:
  * **Notifications** are used to send user notifications such as emails or push notifications for mobile applications.
 
 
-![Level 1 - System Context](/images/Level-1-System-Context.svg)
+![Level 1 - System Context](images/Level-1-System-Context.svg)
 
 
 ## Level 2 - Container diagram - Road Warrior
@@ -51,7 +51,7 @@ It achieves this by interacting with external Notification APIs to deliver email
 The final but equally essential function is the ability to generate analytical reports. To accomplish this, we introduce the Reporting Container:
 - **Analytical Reports Generator**: This service extracts data through the Data Reader and generates monthly Vendor reports. These reports can be accessed by Support personnel or annual user reports, providing insights into their travel history for the past year. This feature enables data-driven decision-making and enhances the overall functionality of the system.
 
-![Level 2 - Software System - Road Warrior](/images/Level-2-Software-System-Road-Warrior.svg)
+![Level 2 - Software System - Road Warrior](images/Level-2-Software-System-Road-Warrior.svg)
 
 
 ## Level 3 - Containers
