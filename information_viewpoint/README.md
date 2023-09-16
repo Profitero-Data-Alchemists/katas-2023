@@ -1,58 +1,48 @@
 # Information Viewpoint
 
-# TODO
+> *Describes the way that the architecture stores, manipulates, manages, and distributes information.*
 
-- Update image when doc is approved
-- cross-link mentioned entities and markdown headers
+The data model is pivotal in any application, directly impacting performance and scalability. To meet these requirements effectively, we recommend adopting a NoSQL approach for data storage. Our proposal involves maintaining object-oriented tables to eliminate the need for complex joins. This approach offers several advantages:
+- Exceptional Performance: By avoiding joins, we ensure outstanding performance for both read and write operations.
+- Horizontal Scalability: We can quickly scale our database horizontally by partitioning data across multiple nodes, supporting our scalability needs as the application grows.
 
-# Purpose
 
-This document describes Data Schema for the solution and provides rationale for
-decisions taken.
+This strategy enhances performance and provides the flexibility needed to accommodate increasing data volumes and user loads.
 
-# Overview
+Here you can find more details about proposed data model:
+<!-- TOC -->
+* [Data Model](#data-model)
+    * [User](#user)
+    * [Reservation](#reservation)
+    * [Reservation Itinerary](#reservation-itinerary)
+    * [Trip](#trip)
+    * [Trip Access Control List](#trip-access-control-list)
+    * [Travel Agency](#travel-agency)
+    * [Notification](#notification)
+    * [User Report](#user-report)
+    * [Vendor Report](#vendor-report)
+<!-- TOC -->
+
+## Data Model
 
 ![Data Schema](./images/information_viewpoint_1.jpg)
 
-Functionally, the application provides several feature groups, including:
 
-- Reservation Data Presentation
-- Reservation Tracking
-- Trip Sharing
-- Analytics
-- Support
-
-| Entity\Feature           | Data Presentation | Reservaton Tracking | Trip Sharing | Analytics | Support |
-|--------------------------|-------------------|---------------------|--------------|-----------|---------|
-| User                     | YES               | YES                 |              | YES       | YES     |
-| Reservation              |                   | YES                 |              | YES       | YES     |
-| Reservation Itinerary    |                   | YES                 |              | YES       | YES     |
-| Trip                     |                   |                     | YES          |           |         |
-| Trip Access Control List |                   |                     | YES          |           |         |
-| Travel Agency            | YES               | YES                 |              | YES       | YES     |
-| Notification             | YES               |                     |              |           | YES     |
-| User Report              | YES               |                     |              | YES       |         |
-| Vendor Report            |                   |                     |              | YES       |         |
-
-Data Schema mirrors that separation.
+## Entities
 
 
-
-# Entities
-
-
-## User
+### User
 
 The User entity represents the end user of the app and encompasses all
 information specific to a user.
 
-### Decisions
+#### Decisions
 - All data is consolidated within a single table, featuring dynamic schema
   fields and accommodating multiple records. This approach optimizes
   performance, facilitates extensibility, and is applicable given that the data
   in question remains unaltered in critical business transactions.
 
-### Fields:
+#### Fields:
 - ID: This serves as a surrogate primary key, prioritizing performance and
   simplifying GDPR compliance procedures.
 - E-mail: The user's email, utilized for authentication as well as reservation
@@ -71,11 +61,11 @@ information specific to a user.
   notification frequency, importance, and delivery method, enhancing user
   convenience.
 
-### Outbound Links
+#### Outbound Links
 - Preferred Agency: Identifies the travel agency designated for quick issue
   resolution.
 
-### Inbound Links
+#### Inbound Links
 - Shared Trips (via the "Trip Access Control List" join table): These are trips
   shared with the user by other users, primarily utilized for authorization and
   access control.
@@ -88,12 +78,12 @@ information specific to a user.
   recipient tracking.
 
 
-## Reservation
+### Reservation
 
 The Reservation entity represents an individual trip event, optionally
 identifiable and traceable within travel agency reservation management systems.
 
-### Decisions
+#### Decisions
 - Utilization of a Surrogate Key instead of a natural Personal Name Record key
   enhances performance, streamlines GDPR compliance, and allows for the
   management of reservations not available for tracking in other systems (e.g.,
@@ -102,7 +92,7 @@ identifiable and traceable within travel agency reservation management systems.
   stored in a separate data collection. Please refer to ``Reservation Itinerary`
   for more details.
 
-### Fields
+#### Fields
 - ID: Surrogate key for unique identification.
 - Tracking Info: Natural key comprising personal details used to retrieve
   reservation details from reservation tracking systems.
@@ -121,7 +111,7 @@ identifiable and traceable within travel agency reservation management systems.
 - Data Source: Records information about where the reservation was discovered,
   used primarily for investigation purposes.
 
-### Outbound Links:
+#### Outbound Links:
 - Agency ID: Identifies the travel agency responsible for managing the
   reservation, used for issue resolution and data tracking.
 - Trip ID: Links the reservation to the corresponding trip, facilitating
@@ -129,29 +119,29 @@ identifiable and traceable within travel agency reservation management systems.
 - UserID: Identifies the creator and owner of the reservation, utilized for
   authorization purposes.
 
-### Inbound Links
+#### Inbound Links
 - Reservation Itinerary: Contains historical versions of the trip itinerary
   details, extracted to a separate collection for enhanced performance.
 
 
-## Reservation Itinerary
+### Reservation Itinerary
 The Reservation Itinerary entity encapsulates historical snapshots of a
 reservation's itinerary details. This collection serves as a log for updates to
 the reservation's state and specifics.
 
-### Decisions
+#### Decisions
 - To alleviate the potential strain of itinerary updates, the core itinerary
   data is stored in this separate data collection. Operations on this
   collection include reading and writing, but not updates.
 - Certain fields are denormalized and duplicated for performance, such as Tracking Info.
 - Some fields are dynamic to allow for flexibility in data schema and to streamline data handling.
 
-### Fields
+#### Fields
 - Primary Key:
 - Reservation ID: Identifies the reservation related to this itinerary record.
 - Timestamp: Marks the moment when the update in details was recorded by the tracking system. This information is used for tracking and analytical purposes.
 
-### Tracking Data
+#### Tracking Data
 - Tracking Info: Personal details used to retrieve reservation details from
   reservation tracking systems.
 - Start Date: Timestamp of the reservation's start date. Extracted to a separate
@@ -165,20 +155,20 @@ the reservation's state and specifics.
   dynamic nature allows for flexibility and simplifies data interpretation.
 
 
-## Trip
+### Trip
 
 The Trip entity represents a collection of reservations, providing a convenient
 grouping. Additionally, trips can be shared with other users, allowing for
 controlled data access in the sharing feature.
 
-### Decisions
+#### Decisions
 - Each user possesses an "Unassigned" trip service containing all reservations
   that have not yet been assigned. This approach streamlines the process of
   working with reservations.
 - The user who owns the trip is still tracked through a direct reference,
   simplifying core authorization.
 
-### Fields
+#### Fields
 - ID: Unique identifier for the trip.
 - Description: Provides a space for users to include additional information
   about the trip.
@@ -187,32 +177,32 @@ controlled data access in the sharing feature.
 - Is Unassigned: A special flag to mark reservations that have not been
   assigned. Each user should have exactly one unassigned trip.
 
-### Outbound Links
+#### Outbound Links
 - Owner: Identifies the user who created and owns the trip. This information is
   used for authorization purposes.
 
-### Inbound Links
+#### Inbound Links
 - Users (via the "Trip Access Control List" join table): Contains a list of
   users and their corresponding roles granted for the trip.
 
 
-## Trip Access Control List
+### Trip Access Control List
 
 The Trip Access Control List entity manages user access to trips that have been
 shared by other users. Its sole purpose is for authorization.
 
-### Fields
+#### Fields
 - Role: This field is an enumeration offering various access levels for the
   trip. Access levels range from "full read access" used for co-travelers, to
   "trip dates and locations" for cases where data is shared with a broader or
   less trusted audience.
 
-### Outbound Links
+#### Outbound Links
 - User: Identifies the user for whom the access role applies.
 - Trip: Specifies the trip to which the access control rule applies.
 
 
-## Travel Agency
+### Travel Agency
 
 The Travel Agency entity encompasses information related to reservation tracking
 and issue resolution.
@@ -221,7 +211,7 @@ Decisions:
 - Data acollection is maintained up to date by support engineers. This is
   acceptable for the MVP stage of the servicd.
 
-### Fields
+#### Fields
 - ID: Unique identifier for the travel agency.
 - Name: Name of the travel agency.
 - Description: Provides information about the travel agency, utilized for
@@ -229,15 +219,15 @@ Decisions:
   contact information.
 - API URL: The URL used to track reservation updates for this agency.
 
-### Inbound Links
+#### Inbound Links
 - User: Identifies the user who prefers this travel agency for issue resolution.
 
 
-## Notification
+### Notification
 
 The Notification entity logs the delivery of app notifications to users.
 
-### Fields
+#### Fields
 - ID: Unique identifier for the notification.
 - Status: Indicates whether the notification has been delivered or not.
 - Type: Enables identification of different interpretations in code and provides
@@ -245,19 +235,19 @@ The Notification entity logs the delivery of app notifications to users.
 - Type Specific Data: A dynamic field containing data to be presented to the
   user.
 
-### Outbound Links
+#### Outbound Links
 - User: Identifies the intended recipient of the notification.
 
 
-## User Report
+### User Report
 
 The User Report entity represents datasets collected for presentation to the user, such as an annual report.
 
-### Decisions
+#### Decisions
 - In scenarios of high peak loads, reports can be relocated to a separate
   analytical database to enhance performance.
 
-### Fields
+#### Fields
 - ID: Unique identifier for the user report.
 - Type: Identifies different types of reports in the code and provides richer
   content for the user.
@@ -266,18 +256,18 @@ The User Report entity represents datasets collected for presentation to the use
 - Data URI: A link to the actual data of the report. This allows for storage in
   a more performant and suitable system, such as BLOB storage.
 
-# Outbound Links
+#### Outbound Links
 
 - User ID: Identifies the intended recipient of the report.
 
 
-## Vendor Report
+### Vendor Report
 
 The Vendor Report entity represents a dataset record of aggregated analytical
 data generated for vendors, such as travel agencies. All the data in the dataset
 serves analytical purposes.
 
-### Decisions:
+#### Decisions:
 - To enhance performance during high peak loads, reports can be relocated to an
   analytical database.
 - This document focuses solely on data storage. The data export feature is not
@@ -287,7 +277,7 @@ serves analytical purposes.
 - The provided stats are for illustrative purposes and require rigorous
   refinement in collaboration with product owners.
 
-### Fields
+#### Fields
 
 Primary Key: Scope of the statistical data in the record
 - Time period: Specifies the date range for the scope of report stats.
