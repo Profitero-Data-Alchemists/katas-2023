@@ -1,5 +1,9 @@
 # The Profitero Data Alchemists Architectural Kata by O'Reilly, September 2023
 
+### Winning [Presentation](https://docs.google.com/presentation/d/1XYSht4BBA61l5Y5CgmbtYsWheBAYv7h38UObcJV8IF4/edit?usp=sharing) and [Video](https://www.youtube.com/watch?v=31RLrp68yvc)
+
+<img align="right" width="329" height="612" src="first-place.jpg" alt="Winners!!!">
+
 ## Team members
 
 - [Ilya Hardzeenka](https://www.linkedin.com/in/ilya-hardzeenka/)
